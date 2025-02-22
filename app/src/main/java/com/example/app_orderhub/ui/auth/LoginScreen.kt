@@ -25,7 +25,7 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Tela de Login")
+            Text("Tela de Loginn")
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = "",
