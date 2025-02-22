@@ -17,13 +17,13 @@ fun SplashScreen(navController: NavController) {
     val screenState = remember { mutableIntStateOf(0) } // Estado para controlar o que exibir
 
     LaunchedEffect(Unit) {
-        delay(timeMillis = 3000)
+        delay(timeMillis = 200)
         screenState.intValue = 0
 
-        delay(timeMillis = 3000)
+        delay(timeMillis = 200)
         screenState.intValue = 1
 
-        delay(timeMillis = 3000)
+        delay(timeMillis = 200)
         navController.navigate("login") {
             popUpTo("splash") { inclusive = true }
         }
