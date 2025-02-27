@@ -64,7 +64,7 @@ fun EsqueciASenha() {
 
         TitleSubtitle(
             "Esqueceu a Senha?",
-            "Enviaremos um e-mail para a autenticação e recuperação de senha",
+            "Enviaremos um e-mail para a autenticação e recuperação de senhaaaa",
             FontWeight.Bold,
             Color.Black,
             Color.Gray,
