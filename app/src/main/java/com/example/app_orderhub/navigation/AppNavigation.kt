@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.app_orderhub.data.Client
 import com.example.app_orderhub.ui.auth.LoginScreen
+import com.example.app_orderhub.ui.auth.RecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.RegisterScreen
 import com.example.app_orderhub.ui.start.SplashScreen
 
@@ -15,7 +16,7 @@ import com.example.app_orderhub.ui.start.SplashScreen
 fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues) {
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
-        composable("login") { LoginScreen(navController) }
+        composable("recover") { RecoverPasswordScreen(navController) }
         composable("register") { RegisterScreen(navController) }
     }
 }

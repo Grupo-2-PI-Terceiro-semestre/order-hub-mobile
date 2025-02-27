@@ -24,7 +24,7 @@ fun SplashScreen(navController: NavController) {
         screenState.intValue = 1
 
         delay(timeMillis = 200)
-        navController.navigate("login") {
+        navController.navigate("recover") {
             popUpTo("splash") { inclusive = true }
         }
     }

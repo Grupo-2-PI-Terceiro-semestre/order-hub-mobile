@@ -10,6 +10,7 @@ data class Client(
     var email: String,
     val senha: String
 ) {
+
     // Construtor secundário (sobrecarga) para criar um cliente com apenas nome e e-mail
     constructor(nome: String, email: String) : this(
         nome = nome,
