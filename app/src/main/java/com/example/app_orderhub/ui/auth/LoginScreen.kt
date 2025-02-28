@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.app_orderhub.data.Client
+import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.Input
 import com.example.app_orderhub.ui.auth.components.TopImage
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
@@ -41,10 +42,31 @@ fun LoginScreen(navController: NavController) {
         ) {
             TopImagePreview()
             FormLoginPreview()
+
         }
 
     }
 
+}
+
+@Preview
+@Composable
+private fun LoginPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ColorBackGroundDefault),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            TopImagePreview()
+            FormLoginPreview()
+
+        }
+
+    }
 }
 
 
@@ -52,6 +74,14 @@ fun LoginScreen(navController: NavController) {
 @Composable
 private fun TopImagePreview() {
     TopImage()
+}
+
+@Preview
+@Composable
+private fun InputButtonPreview() {
+    ButtonAuth(
+        text = "Entrar"
+    )
 }
 
 
