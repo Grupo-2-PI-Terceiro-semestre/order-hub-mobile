@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import com.example.app_orderhub.data.Client
 import com.example.app_orderhub.ui.auth.components.Input
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
-import com.example.app_orderhub.ui.auth.components.TopImage
+import com.example.app_orderhub.ui.auth.components.ImageTop
 
 @Composable
 fun RecoverPasswordScreen(navController: NavController) {
@@ -49,7 +49,7 @@ fun EsqueciASenha() {
 //        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopImage()
+        ImageTop()
 
         Spacer(
             modifier = Modifier
