@@ -24,6 +24,7 @@ fun TitleSubtitle(
     colorSubtitle: Color = Color.Gray,
     fontSizeTitle: Int,
     widthPercentage: Float = .08f,
+    textAlign: TextAlign = TextAlign.Justify
     ) {
 
     Text(
@@ -48,7 +49,7 @@ fun TitleSubtitle(
 
         style = MaterialTheme.typography.bodyMedium.copy(
             color = colorSubtitle,
-            textAlign = TextAlign.Justify
+            textAlign = textAlign
         ),
 
 
