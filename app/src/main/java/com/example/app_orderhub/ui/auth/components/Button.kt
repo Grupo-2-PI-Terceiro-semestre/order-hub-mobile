@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +25,8 @@ fun ButtonAuth(
     borderWidth: Int = 2,
     width: Int = 200,
     height: Int = 50,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    fontWeight: FontWeight = FontWeight.Bold
 ) {
     Button(
         onClick = onClick,
@@ -35,7 +37,7 @@ fun ButtonAuth(
             .width(width.dp)
             .height(height.dp)
     ) {
-        Text(text = text, color = textColor, style = TextStyle(fontSize = 16.sp))
+        Text(text = text, color = textColor, style = TextStyle(fontSize = 16.sp), fontWeight = fontWeight)
     }
 }
 
