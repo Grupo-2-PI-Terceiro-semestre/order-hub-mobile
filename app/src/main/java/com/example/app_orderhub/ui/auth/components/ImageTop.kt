@@ -20,16 +20,3 @@ fun ImageTop(modifier: Modifier = Modifier) {
             .fillMaxWidth()
     )
 }
-
-@Composable
-fun ImageBottom(modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    val drawableId = context.resources.getIdentifier("fluidoinvertido", "drawable", context.packageName)
-    Image(
-        painter = painterResource(id = drawableId),
-        contentDescription = "Logo do App",
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth()
-    )
-}
