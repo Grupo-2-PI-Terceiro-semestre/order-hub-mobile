@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.example.app_orderhub.data.Client
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.Input
-import com.example.app_orderhub.ui.auth.components.TopImage
+import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 
@@ -73,7 +73,7 @@ private fun LoginPreview() {
 @Preview
 @Composable
 private fun TopImagePreview() {
-    TopImage()
+    ImageTop()
 }
 
 @Preview
