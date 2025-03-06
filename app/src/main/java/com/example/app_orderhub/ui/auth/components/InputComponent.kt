@@ -14,7 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
-import com.example.app_orderhub.util.theme.ColorBorderInput
+import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,7 +27,7 @@ fun Input(
     widthPercentage: Float? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    colorBorderInput: Color = ColorBorderInput
+    colorBorderInput: Color = OrderHubBlue
 ) {
     OutlinedTextField(
         value = value,

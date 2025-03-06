@@ -16,10 +16,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppOrderHubTheme {
                 val navController = rememberNavController()
-                Scaffold(
+                Scaffold (
                     modifier = Modifier.fillMaxSize()
-                ) { innerPadding -> AppNavigation(navController, innerPadding) }
+                ) { innerPadding -> AppNavigation(navController, innerPadding)
+                }
             }
         }
     }
 }
+
