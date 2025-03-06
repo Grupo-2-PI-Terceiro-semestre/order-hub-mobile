@@ -1,16 +1,43 @@
+# Arquivos do IntelliJ IDEA
 *.iml
-.gradle
-/.idea
+.idea/
+*.ipr
+*.iws
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/kotlinPlugin.xml
+
+# Configuração local do Android Studio
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea/
+
+# Arquivos do Gradle
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Arquivos do sistema
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+Thumbs.db
+
+# Dependências do Kotlin/Java
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Build outputs
+/build/
+out/
+
+# Cache do Kotlin
+/.kotlin/
+
+# Arquivos de teste gerados
+/test-results/
