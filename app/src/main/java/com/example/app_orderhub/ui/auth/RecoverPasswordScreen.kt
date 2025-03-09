@@ -26,50 +26,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.app_orderhub.data.Client
+import com.example.app_orderhub.ui.auth.components.ButtonAuth
+import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.Input
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
-import com.example.app_orderhub.ui.auth.components.TopImage
+import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
 fun RecoverPasswordScreen(navController: NavController) {
-    EsqueciASenha()
+    RecoverPasswordPreview(navController)
 }
 
-@Preview
 @Composable
-fun EsqueciASenha() {
+fun RecoverPasswordPreview(navController: NavController) {
     var nome = remember {
         mutableStateOf("")
     }
 
-    Column(modifier = Modifier
-        .background(Color.White)
-        .fillMaxWidth()
-        .fillMaxHeight(),
-//        verticalArrangement = Arrangement.Center,
+    Column(
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxWidth()
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopImage()
+        ImageTop()
 
-        Spacer(
-            modifier = Modifier
-                .height(30.dp)
-        )
+        Spacer(modifier = Modifier.height(30.dp))
 
         TitleSubtitle(
-            "Esqueceu a Senha?",
-            "Enviaremos um e-mail para a autenticação e recuperação de senhaaaa",
+            title = "Esqueceu a Senha?",
+            subtitle = "Enviaremos um e-mail para a autenticação e recuperação de senhaaaa",
             FontWeight.Bold,
             Color.Black,
             Color.Gray,
-            30,
-            0.7f
+            25,
+            widthPercentage = 0.7f
         )
 
-        Spacer(
-            modifier = Modifier
-                .height(30.dp)
-        )
+        Spacer(modifier = Modifier.height(30.dp))
 
         var client = remember { mutableStateOf(Client()) }
 
@@ -86,27 +81,42 @@ fun EsqueciASenha() {
             }
         )
 
-        Spacer(
-            modifier = Modifier
-                .height(30.dp)
+        Spacer(modifier = Modifier.height(30.dp))
+
+        ButtonPreview(navController)
+    }
+}
+
+@Composable
+private fun ButtonPreview(navController: NavController) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        ButtonAuth(
+            borderRadius = 10,
+            text = "Enviar",
+            borderColor = OrderHubBlue,
+            fontSize = 20,
+            onClick = {
+                // Lógica para enviar o e-mail de recuperação
+            }
         )
 
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Blue,
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
-                .width(285.dp)
-                .height(50.dp),
-            onClick = {}) {
-            Text(
-                text = "Enviar",
+        Spacer(modifier = Modifier.height(16.dp))
 
-                style = MaterialTheme.typography.titleLarge,
-            )
-        }
-
+        ButtonAuth(
+            borderRadius = 10,
+            text = "Voltar",
+            fontSize = 20,
+            backgroundColor = Color.White,
+            textColor = Color.Black,
+            borderWidth = 1,
+            onClick = {
+                navController.navigate("login") {
+                    popUpTo("recover") { inclusive = true }
+                }
+            }
+        )
     }
 }

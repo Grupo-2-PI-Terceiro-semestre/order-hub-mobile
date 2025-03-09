@@ -17,16 +17,15 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TitleSubtitle(
 //    modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String,
-    fontWeight: FontWeight,
+    title: String = "",
+    subtitle: String = "",
+    fontWeight: FontWeight = FontWeight.Normal,
     colorTitle: Color = Color.Black,
     colorSubtitle: Color = Color.Gray,
-    fontSizeTitle: Int,
+    fontSizeTitle: Int = 15,
     widthPercentage: Float = .08f,
     textAlign: TextAlign = TextAlign.Justify
     ) {
-
     Text(
         style = MaterialTheme.typography.titleLarge.copy(
             fontSize = fontSizeTitle.sp,
@@ -45,7 +44,7 @@ fun TitleSubtitle(
 
     Text(
         modifier = Modifier
-             .fillMaxWidth(widthPercentage),
+            .fillMaxWidth(widthPercentage),
 
         style = MaterialTheme.typography.bodyMedium.copy(
             color = colorSubtitle,

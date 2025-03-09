@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun TopImage(modifier: Modifier = Modifier) {
+fun ImageTop(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val drawableId = context.resources.getIdentifier("fluido", "drawable", context.packageName)
     Image(
