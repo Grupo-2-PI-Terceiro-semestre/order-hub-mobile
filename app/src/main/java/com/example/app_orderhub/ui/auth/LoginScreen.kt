@@ -46,7 +46,7 @@ fun LoginScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackGroundDefault), // Defina a cor de fundo aqui
+            .background(ColorBackGroundDefault),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -163,9 +163,7 @@ private fun ButtonRecoverPasswordPreview(navController: NavController) {
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
             modifier = Modifier.clickable {
-                navController.navigate("recover") {
-                    popUpTo("login") { inclusive = true }
-                }
+                navController.navigate("recover")
             }
         )
     }
