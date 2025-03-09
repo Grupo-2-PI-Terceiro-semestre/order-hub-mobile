@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.app_orderhub.util.components.LogoAnimation
 import kotlinx.coroutines.delay
 
 @Composable
@@ -17,16 +18,8 @@ fun SplashScreen(navController: NavController) {
     val screenState = remember { mutableIntStateOf(0) } // Estado para controlar o que exibir
 
     LaunchedEffect(Unit) {
-        delay(timeMillis = 3000)
-        screenState.intValue = 0
-
-        delay(timeMillis = 3000)
+        delay(timeMillis = 2000)
         screenState.intValue = 1
-
-        delay(timeMillis = 3000)
-        navController.navigate("login") {
-            popUpTo("splash") { inclusive = true }
-        }
     }
 
     // UI com base no estado
@@ -35,8 +28,8 @@ fun SplashScreen(navController: NavController) {
         contentAlignment = Alignment.Center
     ) {
         when (screenState.intValue) {
-            0 -> Text(text = "LOGO AQUI") // Substitua pela logo real
-            1 -> Text(text = "Bem-vindo! Aguardando você para começar.") // Mensagem de boas-vindas
+            0 -> LogoAnimation()
+            1 -> WelcomeScreen(navController)
         }
     }
 }
