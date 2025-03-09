@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,8 +23,9 @@ fun ButtonAuth(
     borderColor: Color = Color.Black,
     borderRadius: Int = 20,
     borderWidth: Int = 2,
-    width: Int = 200,
+    width: Float = 0.8f,
     height: Int = 50,
+    fontSize: Int = 16,
     onClick: () -> Unit = {}
 ) {
     Button(
@@ -32,10 +34,10 @@ fun ButtonAuth(
         shape = RoundedCornerShape(borderRadius.dp),
         border = BorderStroke(borderWidth.dp, borderColor),
         modifier = Modifier
-            .width(width.dp)
+            .fillMaxWidth(width)
             .height(height.dp)
     ) {
-        Text(text = text, color = textColor, style = TextStyle(fontSize = 16.sp))
+        Text(text = text, color = textColor, style = TextStyle(fontSize = fontSize.sp, fontWeight = FontWeight.Bold))
     }
 }
 
