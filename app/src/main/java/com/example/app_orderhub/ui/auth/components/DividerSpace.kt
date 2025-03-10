@@ -3,10 +3,10 @@ package com.example.app_orderhub.ui.auth.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,10 +59,8 @@ fun DividerSpace (modifier: Modifier = Modifier , content: String = "") {
         Image(
             painter = painterResource(id = drawableId),
             contentDescription = "gmail",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth(0.2f)
-
+            contentScale = ContentScale.Fit, // Mantém a proporção
+            modifier = Modifier.size(50.dp) // Define um tamanho fixo para evitar distorções
         )
     }
 
