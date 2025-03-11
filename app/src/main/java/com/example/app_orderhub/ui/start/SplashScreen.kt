@@ -18,7 +18,7 @@ fun SplashScreen(navController: NavController) {
     val screenState = remember { mutableIntStateOf(0) } // Estado para controlar o que exibir
 
     LaunchedEffect(Unit) {
-        delay(timeMillis = 2000)
+        delay(timeMillis = 2750)
         screenState.intValue = 1
     }
 
