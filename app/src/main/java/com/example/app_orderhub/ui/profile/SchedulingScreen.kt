@@ -14,7 +14,7 @@ import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun SchedulingScreen(navController: NavController) {
     MenuNavigation(navController) {
         Column(
             modifier = Modifier
@@ -23,7 +23,7 @@ fun ProfileScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Profile Screen",
+                text = "Scheduling Screen",
                 color = Color.Black,
                 fontSize = 24.sp
             )

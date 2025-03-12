@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.profile
+package com.example.app_orderhub.ui.notification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
-fun ProfileScreen(navController: NavController) {
-    MenuNavigation(navController) {
+fun NotificationScreen(navController: NavController) {
+    MenuNavigation(navController) { _ ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -23,7 +23,7 @@ fun ProfileScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Profile Screen",
+                text = "Notification Screen",
                 color = Color.Black,
                 fontSize = 24.sp
             )
