@@ -14,7 +14,7 @@ fun ImageBottom(modifier: Modifier = Modifier) {
     val drawableId = context.resources.getIdentifier("fluidoinvertido", "drawable", context.packageName)
     Image(
         painter = painterResource(id = drawableId),
-        contentDescription = "Logo do App",
+        contentDescription = "Imagem de fundo do app",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
