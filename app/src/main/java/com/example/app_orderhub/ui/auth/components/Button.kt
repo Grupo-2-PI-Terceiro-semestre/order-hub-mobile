@@ -23,10 +23,10 @@ fun ButtonAuth(
     borderColor: Color = Color.Black,
     borderRadius: Int = 20,
     borderWidth: Int = 2,
-    width: Int = 200,
+    width: Float = 0.8f,
     height: Int = 50,
-    onClick: () -> Unit = {},
-    fontWeight: FontWeight = FontWeight.Bold
+    fontSize: Int = 16,
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = onClick,
@@ -34,10 +34,10 @@ fun ButtonAuth(
         shape = RoundedCornerShape(borderRadius.dp),
         border = BorderStroke(borderWidth.dp, borderColor),
         modifier = Modifier
-            .width(width.dp)
+            .fillMaxWidth(width)
             .height(height.dp)
     ) {
-        Text(text = text, color = textColor, style = TextStyle(fontSize = 16.sp), fontWeight = fontWeight)
+        Text(text = text, color = textColor, style = TextStyle(fontSize = fontSize.sp, fontWeight = FontWeight.Bold))
     }
 }
 

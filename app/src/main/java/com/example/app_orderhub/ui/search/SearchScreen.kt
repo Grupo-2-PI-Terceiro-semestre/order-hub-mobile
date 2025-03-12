@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.profile
+package com.example.app_orderhub.ui.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun SearchScreen(navController: NavController) {
     MenuNavigation(navController) {
         Column(
             modifier = Modifier
@@ -23,7 +23,7 @@ fun ProfileScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Profile Screen",
+                text = "Search Screen",
                 color = Color.Black,
                 fontSize = 24.sp
             )

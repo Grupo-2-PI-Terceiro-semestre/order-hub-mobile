@@ -1,17 +1,12 @@
 package com.example.app_orderhub.ui.auth
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,20 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
+import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
-import com.example.app_orderhub.ui.auth.components.TopImage
+import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
-import com.example.app_orderhub.util.theme.Purple80
 
 
 @Composable
 fun ConfirmRecoverPasswordScreen(navController: NavController) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(ColorBackGroundDefault),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopImage()
+        ImageTop()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -63,9 +59,13 @@ fun ConfirmRecoverPasswordScreen(navController: NavController) {
 
         ButtonAuth(
             text = "OK",
-            borderRadius = 15,
+            borderRadius = 10,
             borderColor = OrderHubBlue,
-            onClick = {}
+            onClick = {
+                navController.popBackStack("confirmRecover", inclusive = true)
+                navController.popBackStack("recover", inclusive = true)
+                navController.navigate("login")
+            }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -80,10 +80,9 @@ fun ConfirmRecoverPasswordScreen(navController: NavController) {
         ButtonAuth(
             text = "Reenviar",
             textColor = OrderHubBlue,
-            borderRadius = 15,
+            borderRadius = 10,
             borderColor = OrderHubBlue,
             backgroundColor = Color.White,
-            fontWeight = FontWeight.ExtraBold,
             onClick = {}
         )
     }
@@ -97,7 +96,7 @@ private fun ConfirmRecoverPasswordPreview() {
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopImage()
+        ImageTop()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -142,7 +141,6 @@ private fun ConfirmRecoverPasswordPreview() {
             borderRadius = 15,
             borderColor = OrderHubBlue,
             backgroundColor = Color.White,
-            fontWeight = FontWeight.ExtraBold,
             onClick = {}
         )
     }
