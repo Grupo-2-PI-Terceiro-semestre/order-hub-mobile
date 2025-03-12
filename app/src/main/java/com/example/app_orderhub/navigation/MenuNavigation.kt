@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
+import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.ColorButtonNavigation
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
@@ -44,9 +45,9 @@ fun PreviewBottomNavigationBar() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        BottomNavItem("agenda", Icons.Default.DateRange, "Agenda"),
+        BottomNavItem("scheduling", Icons.Default.DateRange, "Agenda"),
         BottomNavItem("search", Icons.Default.Search, "Buscar"),
-        BottomNavItem("notifications", Icons.Default.Notifications, "Notificações"),
+        BottomNavItem("notification", Icons.Default.Notifications, "Notificações"),
         BottomNavItem("profile", Icons.Default.Person, "Perfil")
     )
 
@@ -54,31 +55,28 @@ fun BottomNavigationBar(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .height(90.dp)
+            .background(ColorBackGroundDefault)
     ) {
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
-                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
         ) {
             val width = size.width
             val height = size.height
-            val waveWidth = 100.dp.toPx()
-            val waveHeight = 65.dp.toPx()
+            val waveWidth = 90.dp.toPx()
+            val waveHeight = 55.dp.toPx()
             val centerX = width / 2
 
             val path = Path().apply {
                 moveTo(0f, 0f)
-                lineTo(centerX - waveWidth, 0f) // Vai até o início da primeira curva
+                lineTo(centerX - waveWidth / 2, 0f)
+
                 cubicTo(
-                    centerX - 0, 0f, // Ponto de controle 1 da primeira curva
-                    centerX - 190.dp.toPx() / 2, 1.dp.toPx(), // Ponto de controle 2 da primeira curva
-                    centerX - 100.dp.toPx() / 2, 0f // Fim da primeira curva
-                )
-                cubicTo(
-                    centerX - waveWidth / 2, waveHeight,
-                    centerX + waveWidth / 2, waveHeight,
-                    centerX + waveWidth / 2, 0f
+                    centerX - waveWidth / 2 + 20f, waveHeight + 10f, // Ponto de controle esquerdo arredondado
+                    centerX + waveWidth / 2 - 20f, waveHeight + 10f, // Ponto de controle direito arredondado
+                    centerX + waveWidth / 2, 0f // Final da curva
                 )
                 lineTo(width, 0f)
                 lineTo(width, height)
@@ -137,15 +135,24 @@ fun FloatingCenterButton(navController: NavController) {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenContent(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Scaffold(
-            bottomBar = { BottomNavigationBar(navController) },
-            floatingActionButton = { FloatingCenterButton(navController) },
-            floatingActionButtonPosition = FabPosition.Center
-        ) {}
+fun MenuNavigation(navController: NavController, content: @Composable (PaddingValues) -> Unit) {
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) },
+        floatingActionButton = { FloatingCenterButton(navController) },
+        floatingActionButtonPosition = FabPosition.Center
+    ) { paddingValues ->  // Captura o padding interno do Scaffold
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),  // Aplica o padding no conteúdo
+            contentAlignment = Alignment.Center
+        ) {
+            content(paddingValues)
+        }
     }
 }
+
+
 
 @Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
