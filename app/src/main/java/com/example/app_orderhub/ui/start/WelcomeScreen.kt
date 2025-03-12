@@ -15,8 +15,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_orderhub.ui.start.components.ImageBottom
 
@@ -52,14 +54,16 @@ private fun WelcomePrev() {
                 modifier = Modifier,
                 style = MaterialTheme.typography.titleLarge,
                 text = "Bem-vindo!",
-                color = Color.Black
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(10.dp))
             Text(
                 modifier = Modifier,
                 style = MaterialTheme.typography.titleMedium,
                 text = "Se prepare para explorar diversos serviços",
-                color = Color.Black
+                color = Color.Black,
+                fontWeight = FontWeight.SemiBold
             )
         }
 
@@ -75,7 +79,8 @@ private fun WelcomePrev() {
             Text(
                 text = "Vamos lá!",
                 color = Color.White,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
             )
         }
     }
