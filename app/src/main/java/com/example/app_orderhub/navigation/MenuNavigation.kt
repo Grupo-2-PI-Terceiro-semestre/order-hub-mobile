@@ -72,8 +72,8 @@ fun BottomNavigationBar(navController: NavController) {
                 lineTo(centerX - waveWidth, 0f) // Vai até o início da primeira curva
                 cubicTo(
                     centerX - 0, 0f, // Ponto de controle 1 da primeira curva
-                    centerX - 190.dp.toPx() / 2, 65.dp.toPx(), // Ponto de controle 2 da primeira curva
-                    centerX - 105.dp.toPx() / 2, 40f // Fim da primeira curva
+                    centerX - 190.dp.toPx() / 2, 1.dp.toPx(), // Ponto de controle 2 da primeira curva
+                    centerX - 100.dp.toPx() / 2, 0f // Fim da primeira curva
                 )
                 cubicTo(
                     centerX - waveWidth / 2, waveHeight,
