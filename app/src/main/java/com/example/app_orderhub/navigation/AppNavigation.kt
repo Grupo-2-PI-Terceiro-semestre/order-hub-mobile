@@ -17,7 +17,8 @@ import com.example.app_orderhub.ui.start.WelcomeScreen
 fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues) {
     // TODO: ALTERAR AQUI PARA CONSEGUIR VISUALIZAR A TELA, COLOCAR O NOME DA TELA NO "startDestination"
     // TODO: NÃO SE ESQUEÇA DE INSTACIAR A TELA PRINCIPAL AQUI
-    NavHost(navController = navController, startDestination = "splash") {
+    NavHost(navController = navController, startDestination = "menuNavigation") {
+        composable("menuNavigation"){ScreenContent(navController)}
         composable("splash") { SplashScreen(navController) }
         composable("welcome") { WelcomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
