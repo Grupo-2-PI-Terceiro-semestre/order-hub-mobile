@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.schedule.components
+package com.example.app_orderhub.ui.catolog.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
