@@ -7,28 +7,39 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.app_orderhub.ui.profile.components.optionNavProfile
-import com.example.app_orderhub.ui.profile.components.profileCard
+import androidx.navigation.NavController
+import com.example.app_orderhub.navigation.MenuNavigation
+import com.example.app_orderhub.ui.profile.components.OptionNavProfile
+import com.example.app_orderhub.ui.profile.components.ProfileCard
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
-import optionProfile
+import OptionProfile
 
 @Composable
-fun profileScreen(modifier: Modifier = Modifier) {
-    profileScreenPrev()
+fun ProfileScreen(navController:NavController) {
+    MenuNavigation(navController) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(ColorBackGroundDefault),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ProfileScreenPrev()
+        }
+    }
 }
 
 @Preview
 @Composable
-private fun profileScreenPrev() {
+private fun ProfileScreenPrev() {
 Column(modifier = Modifier
     .fillMaxSize()
     .background(ColorBackGroundDefault)
@@ -43,11 +54,11 @@ Column(modifier = Modifier
             .padding(24.dp)
     )
 
-    profileCard()
+    ProfileCard()
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    optionNavProfile()
+    OptionNavProfile()
 
     Spacer(modifier = Modifier.height(16.dp))
 
@@ -63,7 +74,7 @@ Column(modifier = Modifier
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    optionProfile()
+    OptionProfile()
 
 }
 }

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.app_orderhub.util.theme.ColorTextProfile
 
 @Composable
-fun optionNavProfile() {
+fun OptionNavProfile() {
     ProfileOptionsList()
 }
 

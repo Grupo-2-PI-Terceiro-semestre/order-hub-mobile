@@ -2,7 +2,6 @@ package com.example.app_orderhub.ui.profile.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,13 +30,13 @@ import com.example.app_orderhub.R
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun profileCard(modifier: Modifier = Modifier) {
-    profileCardPrev()
+fun ProfileCard(modifier: Modifier = Modifier) {
+    ProfileCardPrev()
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun profileCardPrev() {
+private fun ProfileCardPrev() {
 var nomeUsuario = "Cliente";
     Card(
             modifier = Modifier

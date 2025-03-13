@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 
 
 @Composable
-fun optionProfile() {
+fun OptionProfile() {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -79,7 +79,7 @@ fun OptionItem(icon: Painter, title: String) {
 @Preview
 @Composable
 fun PreviewOptionProfile() {
-    optionProfile()
+    OptionProfile()
 }
 
 @Preview(showBackground = true)
