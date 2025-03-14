@@ -23,7 +23,7 @@ import com.example.app_orderhub.ui.start.WelcomeScreen
 fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues) {
     // TODO: ALTERAR AQUI PARA CONSEGUIR VISUALIZAR A TELA, COLOCAR O NOME DA TELA NO "startDestination"
     // TODO: NÃO SE ESQUEÇA DE INSTACIAR A TELA PRINCIPAL AQUI
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
         composable("welcome") { WelcomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
@@ -38,5 +38,6 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
         composable("profile") { ProfileScreen(navController) }
         composable("notification") { NotificationScreen(navController) }
         composable("scheduling") { SchedulingScreen(navController) }
+        composable("catalog") { CatalogScreen(navController) }
     }
 }
