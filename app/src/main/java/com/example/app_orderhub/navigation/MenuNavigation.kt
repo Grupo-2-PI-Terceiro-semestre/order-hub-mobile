@@ -1,4 +1,4 @@
-package com.example.app_orderhub.navigation
+ package com.example.app_orderhub.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Canvas
@@ -51,6 +51,8 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem("profile", Icons.Default.Person, "Perfil")
     )
 
+    val currentRoute = navController.currentDestination?.route
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -95,6 +97,10 @@ fun BottomNavigationBar(navController: NavController) {
                 if (index == 2) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
+                val isSelected = item.route == currentRoute
+                val iconColor = if (isSelected) Color.Black else Color.White
+                val sizeIcon = if (isSelected) 30.dp else 25.dp
+
                 IconButton(
                     onClick = {
                         navController.navigate(item.route) {
@@ -107,12 +113,18 @@ fun BottomNavigationBar(navController: NavController) {
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(imageVector = item.icon, contentDescription = item.label, tint = Color.White)
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.label,
+                        modifier = Modifier.size(sizeIcon),
+                        tint = iconColor
+                    )
                 }
             }
         }
     }
 }
+
 
 
 
@@ -127,7 +139,11 @@ fun FloatingCenterButton(navController: NavController) {
             .offset(y = (55).dp)
             .shadow(8.dp, CircleShape)
     ) {
-        Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
+        Icon(
+            modifier = Modifier.size(28.dp),
+            imageVector = Icons.Default.Home,
+            contentDescription = "Home"
+        )
     }
 }
 
