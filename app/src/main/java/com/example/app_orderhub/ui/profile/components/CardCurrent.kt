@@ -15,22 +15,21 @@ import androidx.compose.ui.unit.sp
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun AppointmentCard(
+fun CardCurrent(
     serviceName: String = "Corte e Barba",
     professionalName: String = "Com Kevin Silva",
     date: String = "Março",
     day: String = "15",
     time: String = "10:00",
     onCancel: () -> Unit = {},
-    onReschedule: () -> Unit = {}
+    onReschedule: () -> Unit = {},
+    modifier: Modifier = Modifier // Adicionando o parâmetro Modifier
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color.Black),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        modifier = Modifier
-            .fillMaxWidth()
-
+        modifier = modifier.fillMaxWidth() // Aplicando o Modifier recebido
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -110,5 +109,5 @@ fun AppointmentCard(
 @Preview
 @Composable
 fun PreviewAppointmentCard() {
-    AppointmentCard()
+    CardCurrent(modifier = Modifier.padding(horizontal = 16.dp)) // Aplicando padding no preview também
 }
