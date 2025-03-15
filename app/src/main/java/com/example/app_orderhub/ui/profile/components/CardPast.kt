@@ -44,17 +44,31 @@ fun CardPast(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                IconProfile(
-                    title = "Barbearia NK",
-                    textColor = Color.Black,
-                    fontSize = 16,
-                    size = 30
-                )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp) // Reduzi o espaçamento entre os itens
+                ) {
+                    IconProfile(
+                        title = "Barbearia NK",
+                        textColor = Color.Black,
+                        fontSize = 16,
+                        size = 30
+                    )
+                    Text(
+                        text = status,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        color = Color(0xFF2196F3)
+                    )
+                }
+
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Spacer(modifier = Modifier.weight(1f))
 
                 }
                 Spacer(modifier = Modifier.height(4.dp))
@@ -79,11 +93,8 @@ fun CardPast(
     }
 }
 
-
 @Preview
 @Composable
 fun PreviewCardPast() {
     CardPast()
 }
-
-

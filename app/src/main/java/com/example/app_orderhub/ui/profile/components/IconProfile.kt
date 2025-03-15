@@ -26,8 +26,7 @@ fun IconProfile(
     size: Int = 50
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -36,7 +35,7 @@ fun IconProfile(
             modifier = Modifier.size(size.dp)
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(4.dp)) // Reduzi o espaçamento aqui
 
         Text(
             text = title,
@@ -45,6 +44,7 @@ fun IconProfile(
         )
     }
 }
+
 
 @Preview
 @Composable
