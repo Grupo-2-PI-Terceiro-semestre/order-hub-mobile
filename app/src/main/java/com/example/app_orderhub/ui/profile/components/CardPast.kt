@@ -19,6 +19,7 @@ fun CardPast(
     serviceName: String = "Corte e Barba",
     professionalName: String = "Com Kevin Silva",
     status: String = "FINALIZADA",
+    imagemUrl: String = "https://www.barbeariank.com.br/wp-content/uploads/2021/06/Logo-Barbearia-NK-1.png",
     onReschedule: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -31,7 +32,8 @@ fun CardPast(
             text = date,
             fontSize = 14.sp,
             color = Color.Gray,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(start = 10.dp)
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -39,36 +41,47 @@ fun CardPast(
         Card(
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.elevatedCardElevation(8.dp), // Adicionando sombra
-            modifier = Modifier.fillMaxWidth()
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                IconProfile(
-                    title = "Barbearia NK",
-                    textColor = Color.Black,
-                    fontSize = 16,
-                    size = 30
-                )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
                 ) {
-                    Spacer(modifier = Modifier.weight(1f))
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        IconProfile(
+                            title = "Barbearia NK",
+                            fontSize = 16,
+                            size = 40
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = serviceName,
+                            fontSize = 14.sp,
+                            color = Color.Gray,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                        )
+                    }
+
                     Text(
                         text = status,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        color = Color(0xFF2196F3)
+                        color = Color(0xFF2196F3),
+                        modifier = Modifier.align(Alignment.Top)
                     )
                 }
-                Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = serviceName,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Button(
                     onClick = { onReschedule() },
@@ -83,7 +96,7 @@ fun CardPast(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewCardPast() {
     CardPast()
