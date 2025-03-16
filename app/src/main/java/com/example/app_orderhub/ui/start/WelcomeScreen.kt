@@ -27,7 +27,7 @@ fun WelcomeScreen(navController: NavController) {
     // LaunchedEffect para realizar a navegação com atraso
     LaunchedEffect(Unit) {
         // Atraso de 2 segundos antes de navegar
-        kotlinx.coroutines.delay(2000)
+        kotlinx.coroutines.delay(1500)
         navController.navigate("login") {
             popUpTo("splash") { inclusive = true }
         }

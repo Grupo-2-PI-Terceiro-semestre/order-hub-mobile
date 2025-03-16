@@ -1,5 +1,7 @@
 package com.example.app_orderhub.services
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.ViewTreeObserver
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -9,6 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 
 @Composable
 fun rememberImeState(): State<Boolean> {
@@ -30,4 +36,20 @@ fun rememberImeState(): State<Boolean> {
         }
     }
     return imeState
+}
+
+suspend fun loadImageFromUrl(url: String): Bitmap? {
+    val bitmap = withContext(Dispatchers.IO) {
+        try {
+            val connection = URL(url).openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val inputStream = connection.inputStream
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+    return bitmap
 }

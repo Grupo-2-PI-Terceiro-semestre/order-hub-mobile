@@ -189,7 +189,12 @@ private fun ButtonsPreview(navController: NavController) {
             borderRadius = 10,
             text = "Entrar",
             borderColor = OrderHubBlue,
-            fontSize = 20
+            fontSize = 20,
+            onClick = {
+                navController.navigate("home"){
+                    popUpTo("login") { inclusive = true }
+                }
+            }
         )
     }
     Spacer(Modifier.height(16.dp))

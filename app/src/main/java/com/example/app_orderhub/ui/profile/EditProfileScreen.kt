@@ -23,7 +23,7 @@ fun EditProfileScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "EditProfileScreen Screen",
+                text = "Tela Em Construção",
                 color = Color.Black,
                 fontSize = 24.sp
             )
