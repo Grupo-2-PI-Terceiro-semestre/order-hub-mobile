@@ -36,16 +36,17 @@ fun CompanyCard(
     nomeEmpresa: String,
     servicos: String,
     isFullWidth: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
             .then(
                 if (isFullWidth) Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(250.dp)
                 else Modifier
-                    .height(200.dp)
+                    .height(250.dp)
                     .width(200.dp)
             )
             .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)) // Adiciona contorno sutil
@@ -57,6 +58,7 @@ fun CompanyCard(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
+        onClick = onClick,
         elevation = CardDefaults.cardElevation(8.dp), // Mantemos um efeito de profundidade sutil
     ) {
         Column(

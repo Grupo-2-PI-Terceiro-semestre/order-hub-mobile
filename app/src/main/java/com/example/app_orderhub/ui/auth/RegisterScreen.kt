@@ -156,6 +156,7 @@ fun RegisterScreenPreviw(navController: NavController) {
                 backgroundColor = Color.White,
                 fontSize = 20,
                 borderWidth = 1,
+                onClick = {navController.navigate("login")}
             )
         }
 

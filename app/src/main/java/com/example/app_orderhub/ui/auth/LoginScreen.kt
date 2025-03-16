@@ -191,7 +191,7 @@ private fun ButtonsPreview(navController: NavController) {
             borderColor = OrderHubBlue,
             fontSize = 20,
             onClick = {
-                navController.navigate("catalog"){
+                navController.navigate("home"){
                     popUpTo("login") { inclusive = true }
                 }
             }

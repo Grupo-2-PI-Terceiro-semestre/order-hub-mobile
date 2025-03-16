@@ -23,62 +23,64 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun ProfileCard(modifier: Modifier = Modifier) {
-    ProfileCardPrev()
+fun ProfileCard(navController: NavController) {
+    ProfileCardPrev(navController)
 }
 
-@Preview(showBackground = true)
+
 @Composable
-private fun ProfileCardPrev() {
-var nomeUsuario = "Cliente";
+private fun ProfileCardPrev(navController: NavController) {
+    var nomeUsuario = "Cliente";
     Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
+        colors = CardDefaults.cardColors(containerColor = OrderHubBlue), // Azul
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
+        onClick = { navController.navigate("editProfile") }
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
-            colors = CardDefaults.cardColors(containerColor = OrderHubBlue), // Azul
-            shape = RoundedCornerShape(12.dp),
-            elevation = CardDefaults.cardElevation(4.dp)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
+            Image(
+                painter = painterResource(id = R.drawable.user), // Substitua com sua imagem
+                contentDescription = "User",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.user), // Substitua com sua imagem
-                    contentDescription = "User",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.White, CircleShape)
-                )
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.White, CircleShape)
+            )
 
-                Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
-                // Nome do usuário
-                Text(
-                    text = nomeUsuario,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+            // Nome do usuário
+            Text(
+                text = nomeUsuario,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
 
-                Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-                // Ícone de edição
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = "Editar",
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp))
-            }
+            // Ícone de edição
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Editar",
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
         }
+    }
 }

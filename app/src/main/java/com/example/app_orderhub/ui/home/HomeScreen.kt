@@ -1,5 +1,6 @@
 package com.example.app_orderhub.ui.home
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -13,11 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_orderhub.navigation.MenuNavigation
+import com.example.app_orderhub.services.rememberImeState
 import com.example.app_orderhub.util.components.CompanyCard
 import com.example.app_orderhub.util.components.SearchBar
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
@@ -37,11 +41,22 @@ import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
 fun HomeScreen(navController: NavController) {
+
+    val imeState = rememberImeState()
+    var scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.animateScrollTo(scrollState.maxValue, tween(300))
+        }
+    }
+
     MenuNavigation(navController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(ColorBackGroundDefault),
+                .background(ColorBackGroundDefault)
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchBar(
@@ -55,7 +70,7 @@ fun HomeScreen(navController: NavController) {
             Spacer(Modifier.height(20.dp))
 
             SectionTitle("Estabelecimentos Recomendados")
-            HorizontalCompanyList()
+            HorizontalCompanyList(navController)
 
             Spacer(Modifier.height(12.dp))
 
@@ -63,7 +78,7 @@ fun HomeScreen(navController: NavController) {
             HorizontalCategoryList()
 
             Spacer(Modifier.height(12.dp))
-            HorizontalCompanyList()
+            HorizontalCompanyList(navController)
         }
     }
 }
@@ -74,6 +89,7 @@ fun SectionTitle(title: String) {
         text = title,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Bold,
+        color = Color.Black,
         fontSize = 20.sp,
         modifier = Modifier
             .fillMaxWidth()
@@ -82,7 +98,7 @@ fun SectionTitle(title: String) {
 }
 
 @Composable
-fun HorizontalCompanyList() {
+fun HorizontalCompanyList(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,7 +113,8 @@ fun HorizontalCompanyList() {
                 modifier = Modifier
                     .padding(8.dp)
                     .width(180.dp),
-                isFullWidth = false
+                isFullWidth = false,
+                onClick = { navController.navigate("catalog") }
             )
         }
     }

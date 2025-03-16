@@ -1,6 +1,8 @@
 package com.example.app_orderhub.ui.profile.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -15,24 +17,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app_orderhub.util.theme.ColorTextProfile
 
 @Composable
-fun OptionNavProfile() {
-    ProfileOptionsList()
+fun OptionNavProfile(navController: NavController) {
+    ProfileOptionsList(navController)
 }
 
-@Preview
+
 @Composable
-fun ProfileOptionsList() {
+fun ProfileOptionsList(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(12.dp))
+            .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
             .background(Color.White)
 
     ) {
@@ -42,7 +45,8 @@ fun ProfileOptionsList() {
             title = "Minha Conta",
             subtitle = "Faça alterações em sua conta",
             endIcon = Icons.Default.Warning,
-            endIconColor = Color.Red
+            endIconColor = Color.Red,
+            onclick = { }
         )
 
 
@@ -50,14 +54,22 @@ fun ProfileOptionsList() {
             icon = Icons.Default.Lock,
             title = "Face ID / Touch ID",
             subtitle = "Gerencie a segurança do seu dispositivo",
-            hasSwitch = true
+            hasSwitch = true,
+            onclick = { }
         )
 
 
         ProfileOption(
             icon = Icons.Default.ExitToApp,
             title = "Sair",
-            endIcon = Icons.Default.ArrowForward
+            endIcon = Icons.Default.ArrowForward,
+            onclick = {
+                navController.navigate("login") {
+                    popUpTo("editProfile") {
+                        inclusive = true
+                    }
+                }
+            }
         )
     }
 }
@@ -69,20 +81,22 @@ fun ProfileOption(
     subtitle: String? = null,
     endIcon: androidx.compose.ui.graphics.vector.ImageVector? = null,
     endIconColor: Color = Color.Gray,
-    hasSwitch: Boolean = false
+    hasSwitch: Boolean = false,
+    onclick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = onclick)
             .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
 
         Icon(
             imageVector = icon,
             contentDescription = null,
             tint = ColorTextProfile,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp),
         )
 
         Spacer(modifier = Modifier.width(12.dp))

@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,13 +29,6 @@ import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
 fun SearchScreen(navController: NavController) {
-    val imageUrls = listOf(
-        "https://static.vecteezy.com/ti/vetor-gratis/t1/10071559-barbearia-logo-barbearia-logo-modelo-vetor.jpg",
-        "https://d2zdpiztbgorvt.cloudfront.net/region1/br/123891/biz_photo/ddfb1b419f3e43e1a8bb8bec1a348e-barbearia-o-barbado-unidade-2-biz-photo-e14961d6dfd549d6b79e481a8f3399-booksy.jpeg?size=640x427",
-        "https://marketplace.canva.com/EAGIHtM5teQ/1/0/1600w/canva-logo-barbearia-minimalista-amarelo-e-preto-chpUtuXnSRA.jpg",
-        "https://static.vecteezy.com/ti/vetor-gratis/t1/19495567-design-de-logotipo-de-barbearia-e-maquina-de-barbear-vetor.jpg",
-        "https://elements-resized.envatousercontent.com/elements-cover-images/51ea8990-bfcb-4545-8108-486bcbc2a46e?w=433&cf_fit=scale-down&q=85&format=auto&s=cd3105e6ef22ff1dac4a367fd6b2172b1954ec36ef38ac88867a4986bf74fc73"
-    )
 
     MenuNavigation(navController) {
         Column(
@@ -45,56 +39,78 @@ fun SearchScreen(navController: NavController) {
         ) {
             Spacer(modifier = Modifier.height(20.dp))
 
-            SearchBar("", {},
-                Modifier
-                    .fillMaxWidth(0.9f)
-                    .height(50.dp)
+            SearchBar(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
             )
             Spacer(modifier = Modifier.height(24.dp))
-
             Text(
-                text = "Barbearia",
+                text = "Estabelecimentos",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
+                color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(10) { index ->
-                        val imageUrl = imageUrls[index % imageUrls.size]
-
-                        CompanyCard(
-                            imagemUrl = imageUrl,
-                            bairro = "Bairro $index",
-                            nomeEmpresa = "Empresa $index",
-                            servicos = "Serviço especializado $index",
-                            isFullWidth = true,
-                            modifier = Modifier
-                                .fillMaxWidth(0.95f)
-                                .height(200.dp)
-                        )
-                    }
-                }
-            }
+                ContentSearch(navController)
         }
     }
 }
 
+@Composable
+fun ContentSearch(navController: NavController) {
 
 
+
+    val imageUrls = listOf(
+        "https://bmcontba.com.br/wp-content/uploads/2023/06/IMAGEM-BLOG-DPG-14.jpg",
+        "https://d2zdpiztbgorvt.cloudfront.net/region1/br/123891/biz_photo/ddfb1b419f3e43e1a8bb8bec1a348e-barbearia-o-barbado-unidade-2-biz-photo-e14961d6dfd549d6b79e481a8f3399-booksy.jpeg?size=640x427",
+        "https://marketplace.canva.com/EAGIHtM5teQ/1/0/1600w/canva-logo-barbearia-minimalista-amarelo-e-preto-chpUtuXnSRA.jpg",
+        "https://static.vecteezy.com/ti/vetor-gratis/t1/19495567-design-de-logotipo-de-barbearia-e-maquina-de-barbear-vetor.jpg",
+        "https://elements-resized.envatousercontent.com/elements-cover-images/51ea8990-bfcb-4545-8108-486bcbc2a46e?w=433&cf_fit=scale-down&q=85&format=auto&s=cd3105e6ef22ff1dac4a367fd6b2172b1954ec36ef38ac88867a4986bf74fc73"
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp)) // Margem no topo
+            }
+            items(10) { index ->
+                val imageUrl = imageUrls[index % imageUrls.size]
+
+                CompanyCard(
+                    imagemUrl = imageUrl,
+                    bairro = "Bairro $index",
+                    nomeEmpresa = "Empresa $index",
+                    servicos = "Serviço especializado $index",
+                    isFullWidth = true,
+                    modifier = Modifier
+                        .fillMaxWidth(0.95f)
+                        .height(200.dp),
+                    onClick = { navController.navigate("catalog") }
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp)) // Margem na base
+            }
+        }
+    }
+}
 
 
 @Composable

@@ -12,6 +12,7 @@ import com.example.app_orderhub.ui.auth.RegisterScreen
 import com.example.app_orderhub.ui.catolog.CatalogScreen
 import com.example.app_orderhub.ui.home.HomeScreen
 import com.example.app_orderhub.ui.notification.NotificationScreen
+import com.example.app_orderhub.ui.profile.EditProfileScreen
 import com.example.app_orderhub.ui.profile.ProfileScreen
 import com.example.app_orderhub.ui.profile.SchedulingScreen
 import com.example.app_orderhub.ui.search.SearchScreen
@@ -39,5 +40,6 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
         composable("notification") { NotificationScreen(navController) }
         composable("scheduling") { SchedulingScreen(navController) }
         composable("catalog") { CatalogScreen(navController) }
+        composable("editProfile") { EditProfileScreen(navController) }
     }
 }

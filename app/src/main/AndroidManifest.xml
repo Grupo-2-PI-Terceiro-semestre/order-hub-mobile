@@ -16,7 +16,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_launcher_background"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logoapp_foreground"
+        android:roundIcon="@drawable/logoinicio"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppOrderHub"
         tools:targetApi="31">
