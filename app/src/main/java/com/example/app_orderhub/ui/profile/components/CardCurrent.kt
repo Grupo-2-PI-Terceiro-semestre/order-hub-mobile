@@ -23,13 +23,13 @@ fun CardCurrent(
     time: String = "10:00",
     onCancel: () -> Unit = {},
     onReschedule: () -> Unit = {},
-    modifier: Modifier = Modifier // Adicionando o parâmetro Modifier
+    modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, Color.Black),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        modifier = modifier.fillMaxWidth() // Aplicando o Modifier recebido
+        elevation = CardDefaults.elevatedCardElevation(8.dp), // Adicionando sombra
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -49,9 +49,7 @@ fun CardCurrent(
                         color = Color.Gray
                     )
                 }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = date,
                         fontSize = 14.sp,
@@ -105,6 +103,7 @@ fun CardCurrent(
         }
     }
 }
+
 
 @Preview
 @Composable

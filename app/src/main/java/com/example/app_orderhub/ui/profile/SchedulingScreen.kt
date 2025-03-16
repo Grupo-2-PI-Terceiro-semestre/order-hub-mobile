@@ -82,7 +82,7 @@ fun SchedulingScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
             CardPast(
-                date = "Sab, 13 junho 2024",
+                date = "Seg, 15 junho 2024",
                 serviceName = "Corte e Barba",
                 professionalName = "Com Kevin Silva",
                 status = "FINALIZADA",

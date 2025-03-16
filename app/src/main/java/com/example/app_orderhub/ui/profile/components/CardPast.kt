@@ -1,6 +1,5 @@
 package com.example.app_orderhub.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -39,8 +38,8 @@ fun CardPast(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(1.dp, Color.Black),
             colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.elevatedCardElevation(8.dp), // Adicionando sombra
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
