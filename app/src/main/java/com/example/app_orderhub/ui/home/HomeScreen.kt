@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_orderhub.navigation.MenuNavigation
-import com.example.app_orderhub.ui.home.components.CompanyCard
-import com.example.app_orderhub.ui.home.components.SearchBar
+import com.example.app_orderhub.util.components.CompanyCard
+import com.example.app_orderhub.util.components.SearchBar
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.LightGray
 import com.example.app_orderhub.util.theme.OrderHubBlue
