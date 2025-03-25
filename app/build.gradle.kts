@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.0.0")
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
 
 
 //    implementation("com.google.maps.android:maps-compose:2.11.4") // Versão mais nova
