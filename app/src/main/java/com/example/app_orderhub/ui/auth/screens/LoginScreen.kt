@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.auth
+package com.example.app_orderhub.ui.auth.screens
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -20,8 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,22 +29,28 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.app_orderhub.data.Client
+import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.services.rememberImeState
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.DividerSpace
 import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.Input
 import com.example.app_orderhub.ui.auth.components.Title
+import com.example.app_orderhub.ui.auth.viewmodel.AuthViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
 
     val imeState = rememberImeState()
     var scrollState = rememberScrollState()
+
+    val client = authViewModel.client.collectAsState()
+    val isLoading = authViewModel.isLoading.collectAsState()
+    val errorMessage = authViewModel.errorMessage.collectAsState()
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) {
@@ -65,10 +70,17 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TopImagePreview()
-            FormLogin(navController = navController)
+            FormLogin(
+                navController = navController,
+                authViewModel =  authViewModel,
+                client = client.value,
+                isLoading =  isLoading.value,
+                errorMessage =  errorMessage.value
+            )
         }
     }
 }
+
 
 
 @Preview
@@ -89,13 +101,11 @@ private fun LoginPreview() {
 }
 
 
-@Preview
 @Composable
 private fun TopImagePreview() {
     ImageTop()
 }
 
-@Preview
 @Composable
 private fun TitlePreview() {
     Title(
@@ -105,14 +115,14 @@ private fun TitlePreview() {
 
 
 @Composable
-private fun FormLoginPreview(navController: NavController) {
-    FormLogin(navController = navController)
-}
-
-
-@Composable
-fun FormLogin(modifier: Modifier = Modifier, navController: NavController) {
-    var client = remember { mutableStateOf(Client()) }
+fun FormLogin(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    client: Client,
+    isLoading: Boolean,
+    errorMessage: String?
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,41 +137,50 @@ fun FormLogin(modifier: Modifier = Modifier, navController: NavController) {
             TitlePreview()
             Spacer(modifier.height(16.dp))
             Input(
-                value = client.value.email,
-                onValueChange = { newValue -> client.value = client.value.copy(email = newValue) },
+                value = client.emailPessoa,
+                onValueChange = authViewModel::onEmailChanged,
                 label = "E-mail",
                 widthPercentage = 0.8f,
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Email,
-                        contentDescription = "E-mail Icon"
+                        contentDescription = "E-mail Icon",
+                        tint = Color.Black
                     )
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Input(
-                value = client.value.senha,
-                onValueChange = { newValue -> client.value = client.value.copy(senha = newValue) },
+                value = client.senha,
+                onValueChange = authViewModel::onPasswordChanged,
                 label = "Senha",
                 widthPercentage = 0.8f,
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Lock,
-                        contentDescription = "Lock Icon"
+                        contentDescription = "Lock Icon",
+                        tint = Color.Black
                     )
                 },
                 keyboardType = KeyboardType.Password,
                 visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier.height(16.dp))
+
+            errorMessage?.let {
+                Text(text = it, color = Color.Red)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             ButtonRecoverPasswordPreview(navController)
             Spacer(modifier.height(16.dp))
-            ButtonsPreview(navController)
+            ButtonsPreview(navController, authViewModel, isLoading)
             Spacer(modifier.height(16.dp))
             DividerSpace(content = "Continuar Usando")
         }
     }
 }
+
 
 
 @Composable
@@ -183,22 +202,35 @@ private fun ButtonRecoverPasswordPreview(navController: NavController) {
 
 
 @Composable
-private fun ButtonsPreview(navController: NavController) {
-    Box() {
+private fun ButtonsPreview(navController: NavController, authViewModel: AuthViewModel, isLoading: Boolean) {
+    Box {
         ButtonAuth(
             borderRadius = 10,
-            text = "Entrar",
+            text = if (isLoading) "Aguarde..." else "Entrar",
             borderColor = OrderHubBlue,
             fontSize = 20,
             onClick = {
-                navController.navigate("home"){
+//                if (!isLoading) {
+//                    authViewModel.login(
+//                        onSuccess = {
+//                            navController.navigate("home") {
+//                                popUpTo("login") { inclusive = true }
+//                            }
+//                        },
+//                        onError = { /* Pode exibir erro na tela se necessário */ }
+//                    )
+//                }
+                navController.navigate("home") {
                     popUpTo("login") { inclusive = true }
                 }
             }
         )
     }
+
+
+
     Spacer(Modifier.height(16.dp))
-    Box() {
+    Box {
         ButtonAuth(
             borderRadius = 10,
             text = "Cadastre-se",
@@ -212,3 +244,4 @@ private fun ButtonsPreview(navController: NavController) {
         )
     }
 }
+

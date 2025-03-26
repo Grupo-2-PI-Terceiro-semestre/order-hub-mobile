@@ -19,9 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.app_orderhub.data.Enterprise
-import com.example.app_orderhub.data.Service
-import com.example.app_orderhub.util.theme.ColorBackGroundDefault
+import com.example.app_orderhub.domain.model.Enterprise
+import com.example.app_orderhub.domain.model.Service
 
 
 @Preview

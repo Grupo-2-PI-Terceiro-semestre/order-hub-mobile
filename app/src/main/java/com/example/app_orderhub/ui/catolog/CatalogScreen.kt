@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.app_orderhub.data.Address
-import com.example.app_orderhub.data.Enterprise
-import com.example.app_orderhub.data.Service
+import com.example.app_orderhub.domain.model.Address
+import com.example.app_orderhub.domain.model.Enterprise
+import com.example.app_orderhub.domain.model.Service
 import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.catolog.components.CardEnterprise
 import com.example.app_orderhub.ui.catolog.components.CardService

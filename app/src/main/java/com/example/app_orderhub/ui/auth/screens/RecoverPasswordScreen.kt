@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.auth
+package com.example.app_orderhub.ui.auth.screens
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.app_orderhub.data.Client
+import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.services.rememberImeState
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.ImageTop
@@ -87,8 +87,8 @@ fun RecoverPasswordPreview(navController: NavController) {
         var client = remember { mutableStateOf(Client()) }
 
         Input(
-            value = client.value.email,
-            onValueChange = { newValue -> client.value = client.value.copy(email = newValue) },
+            value = client.value.emailPessoa,
+            onValueChange = { newValue -> client.value = client.value.copy(emailPessoa = newValue) },
             label = "username@orderhub.com",
             widthPercentage = 0.8f,
             icon = {

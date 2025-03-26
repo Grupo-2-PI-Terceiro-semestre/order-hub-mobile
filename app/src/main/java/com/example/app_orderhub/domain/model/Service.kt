@@ -1,4 +1,4 @@
-package com.example.app_orderhub.data
+package com.example.app_orderhub.domain.model
 
 import java.time.LocalTime
 

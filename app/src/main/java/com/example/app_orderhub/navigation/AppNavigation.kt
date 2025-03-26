@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.app_orderhub.ui.auth.ConfirmRecoverPasswordScreen
-import com.example.app_orderhub.ui.auth.LoginScreen
-import com.example.app_orderhub.ui.auth.RecoverPasswordScreen
-import com.example.app_orderhub.ui.auth.RegisterScreen
+import com.example.app_orderhub.ui.auth.screens.ConfirmRecoverPasswordScreen
+import com.example.app_orderhub.ui.auth.screens.LoginScreen
+import com.example.app_orderhub.ui.auth.screens.RecoverPasswordScreen
+import com.example.app_orderhub.ui.auth.screens.RegisterScreen
 import com.example.app_orderhub.ui.catolog.CatalogScreen
 import com.example.app_orderhub.ui.home.HomeScreen
 import com.example.app_orderhub.ui.notification.NotificationScreen
