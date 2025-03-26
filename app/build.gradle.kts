@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -51,9 +52,15 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation ("androidx.compose.foundation:foundation:1.0.0")
     implementation ("androidx.compose.ui:ui:1.0.0")
-    implementation ("androidx.compose.material3:material3:1.0.0")
+    implementation ("androidx.compose.material3:material3:1.2.0")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.0.0")
     implementation ("androidx.compose.foundation:foundation-layout:1.0.0")
+
+
+//    implementation("com.google.maps.android:maps-compose:2.11.4") // Versão mais nova
+//    implementation("com.google.android.gms:play-services-maps:18.2.0") // Última versão do Google Maps SDK
+
+
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -62,5 +69,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }
+
+
+
