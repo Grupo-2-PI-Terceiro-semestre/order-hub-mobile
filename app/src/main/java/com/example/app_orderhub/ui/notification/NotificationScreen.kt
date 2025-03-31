@@ -23,7 +23,7 @@ fun NotificationScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Notification Screen",
+                text = "Tela Em Construção",
                 color = Color.Black,
                 fontSize = 24.sp
             )

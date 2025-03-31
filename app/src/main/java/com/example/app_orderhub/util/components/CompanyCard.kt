@@ -1,5 +1,6 @@
-package com.example.app_orderhub.ui.home.components
+package com.example.app_orderhub.util.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,30 +36,30 @@ fun CompanyCard(
     nomeEmpresa: String,
     servicos: String,
     isFullWidth: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
             .then(
                 if (isFullWidth) Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(250.dp)
                 else Modifier
-                    .height(200.dp)
+                    .height(250.dp)
                     .width(200.dp)
             )
-            .clip(RoundedCornerShape(16.dp))
+            .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)) // Adiciona contorno sutil
             .shadow(
-                elevation = 20.dp,
+                elevation = 8.dp,
                 shape = RoundedCornerShape(16.dp),
-                clip = true,
-                ambientColor = Color.Black.copy(alpha = 0.2f),
-                spotColor = Color.Black.copy(alpha = 0.2f)
+                clip = false // Evita que o shadow seja cortado
             ),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        elevation = CardDefaults.cardElevation(20.dp),
+        onClick = onClick,
+        elevation = CardDefaults.cardElevation(8.dp), // Mantemos um efeito de profundidade sutil
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -72,15 +73,15 @@ fun CompanyCard(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f),
+                    .weight(1f)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)), // Garante que a imagem respeite a borda arredondada
                 placeholder = ColorPainter(Color.Gray)
             )
 
-            // Texto ocupando 50% do espaço
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f) // Ocupa metade do card
+                    .weight(1f)
                     .padding(12.dp),
                 verticalArrangement = Arrangement.Center
             ) {

@@ -1,5 +1,6 @@
 package com.example.app_orderhub.ui.profile
 
+import OptionProfile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,15 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.profile.components.OptionNavProfile
 import com.example.app_orderhub.ui.profile.components.ProfileCard
+import com.example.app_orderhub.util.components.CardLayout
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
-import OptionProfile
 
 @Composable
 fun ProfileScreen(navController:NavController) {
@@ -32,14 +32,15 @@ fun ProfileScreen(navController:NavController) {
                 .background(ColorBackGroundDefault),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileScreenPrev()
+            CardLayout {
+                ProfileScreenPrev(navController)
+            }
         }
     }
 }
 
-@Preview
 @Composable
-private fun ProfileScreenPrev() {
+private fun ProfileScreenPrev(navController: NavController) {
 Column(modifier = Modifier
     .fillMaxSize()
     .background(ColorBackGroundDefault)
@@ -54,11 +55,11 @@ Column(modifier = Modifier
             .padding(24.dp)
     )
 
-    ProfileCard()
+    ProfileCard(navController)
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    OptionNavProfile()
+    OptionNavProfile(navController)
 
     Spacer(modifier = Modifier.height(16.dp))
 

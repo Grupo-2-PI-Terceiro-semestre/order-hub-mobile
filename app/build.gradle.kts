@@ -42,6 +42,10 @@ android {
 dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("androidx.compose.foundation:foundation:latest_version")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -50,11 +54,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation ("androidx.compose.foundation:foundation:1.0.0")
-    implementation ("androidx.compose.ui:ui:1.0.0")
-    implementation ("androidx.compose.material3:material3:1.2.0")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.0.0")
-    implementation ("androidx.compose.foundation:foundation-layout:1.0.0")
+    implementation("androidx.compose.foundation:foundation:1.0.0")
+    implementation("androidx.compose.ui:ui:1.0.0")
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.0.0")
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
 
 //    implementation("com.google.maps.android:maps-compose:2.11.4") // Versão mais nova

@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.home.components
+package com.example.app_orderhub.util.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

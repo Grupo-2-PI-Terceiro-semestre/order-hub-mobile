@@ -1,4 +1,4 @@
-package com.example.app_orderhub.ui.auth
+package com.example.app_orderhub.ui.auth.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
