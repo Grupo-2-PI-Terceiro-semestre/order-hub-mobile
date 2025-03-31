@@ -1,8 +1,12 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.app_orderhub.ui.catolog.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -10,31 +14,51 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.app_orderhub.domain.model.Enterprise
+import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
+import com.example.app_orderhub.ui.map.viewmodel.MapViewModel
 
 
-@Preview
-@Composable
-private fun CardEnterprisePreview() {
-    CardEnterprise()
-}
+//@Preview
+//@Composable
+//private fun CardEnterprisePreview() {
+//    CardEnterprise()
+//}
 
 
 @Composable
 fun CardEnterprise(
     modifier: Modifier = Modifier,
-    enterprise: Enterprise = Enterprise()
+    enterprise: Enterprise = Enterprise(),
+    viewModel: MapViewModel = viewModel()
 ) {
+
+    LaunchedEffect(enterprise.endereco) {
+        if (enterprise.endereco.logradouro.isNotEmpty()) {
+            viewModel.setLocation(enterprise)
+        }
+    }
+
+
+    val locale by viewModel.locations.collectAsState()
+    val name by viewModel.name.collectAsState()
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -75,7 +99,19 @@ fun CardEnterprise(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        MapView()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .height(200.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            if (locale.isEmpty()) {
+                CircularProgressIndicator()
+            } else {
+                MapView(locale[0], name.getOrElse(0) { "Localização não encontrada" })
+            }
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             modifier = Modifier.padding(8.dp),
@@ -89,9 +125,9 @@ fun CardEnterprise(
         enterprise.servicos.forEach { service ->
             CardService(
                 titleService = service.nomeServico,
-                professionalName = getNameProfessionals(service.proficional),
-                valueService = service.precoServico,
-                timeService = service.duracaoServico.toString(),
+                professionalName = getNameProfessionals(enterprise.proficionais),
+                valueService = service.precoServico.toString(),
+                timeService = service.duracaoServico,
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -99,10 +135,10 @@ fun CardEnterprise(
 }
 
 fun getNameServices(services: List<Service>): String {
-    return services.joinToString(", ") { it.nomeServico }
+    return services.joinToString(", ") { it.nomeServico }.toString()
 }
 
-fun getNameProfessionals(professional: List<String>): String {
-    return professional.joinToString(", ") { it.toString() }
+fun getNameProfessionals(professional: List<Professional>): String {
+    return professional.joinToString(", ") { it.nomePessoa }.toString()
 }
 

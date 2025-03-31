@@ -1,44 +1,42 @@
 package com.example.app_orderhub.ui.catolog.components
 
-import android.graphics.Bitmap
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.app_orderhub.services.loadImageFromUrl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.app_orderhub.data.remote.config.permision.RequestLocationPermission
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.Task
+import com.google.maps.android.compose.*
 
-@Preview
 @Composable
-fun MapView() {
+fun MapView(locale : LatLng? = LatLng(-23.55052, -46.633308), name: String? = "") {
+    val context = LocalContext.current
+    val location = remember { mutableStateOf<LatLng?>(locale) }
 
-    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-
-    LaunchedEffect(true) {
-        bitmap = withContext(Dispatchers.IO) { loadImageFromUrl("https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2024/02/google-maps-e1707316052388.png?w=1200&h=675&crop=1") }
+    val defaultLocation = LatLng(-23.55052, -46.633308) // São Paulo
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(defaultLocation, 12f)
     }
 
-    Box {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,18 +52,40 @@ fun MapView() {
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(Color.White)
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
-            ) {
-                Image(
-                    bitmap = bitmap?.asImageBitmap() ?: ImageBitmap(1, 1),
-                    contentDescription = "Imagem carregada",
-                    modifier = Modifier.matchParentSize(),
-                    contentScale = ContentScale.Crop
-                )
+            Box {
+                GoogleMap(
+                    cameraPositionState = cameraPositionState,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    location.value?.let { currentLatLng ->
+                        Marker(
+                            state = rememberMarkerState(position = currentLatLng),
+                            title = name
+                        )
+                        LaunchedEffect(currentLatLng) {
+                            cameraPositionState.position = CameraPosition.fromLatLngZoom(currentLatLng, 15f)
+                        }
+                    }
+                }
             }
         }
     }
 }
+
+
+
+
+@SuppressLint("MissingPermission") // Certifique-se de solicitar permissões antes de chamar esta função!
+fun getCurrentLocation(context: Context, onLocationReceived: (LatLng) -> Unit) {
+    val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+
+    val locationTask: Task<Location> = fusedLocationClient.lastLocation
+    locationTask.addOnSuccessListener { location: Location? ->
+        location?.let {
+            val latLng = LatLng(it.latitude, it.longitude)
+            onLocationReceived(latLng)
+        }
+    }
+}
+
 
