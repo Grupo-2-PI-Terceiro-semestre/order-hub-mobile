@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +34,6 @@ Column {
 
     CustomTextFild(modifier = Modifier
         .padding(12.dp)
-        .background(Color.White)
         .clip(RoundedCornerShape(4.dp))
         .fillMaxWidth(),
         valueOf = name,
@@ -78,8 +78,16 @@ fun CustomTextFild(
             Text(text = labelText)
         },
         modifier = modifier,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         onValueChange = {
             changeValue(it)
         }
+
     )
 }

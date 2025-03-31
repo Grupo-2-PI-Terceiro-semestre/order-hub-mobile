@@ -10,25 +10,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.app_orderhub.ui.profile.components.InputName
 import com.example.app_orderhub.ui.profile.components.OptionProfile
 import com.example.app_orderhub.ui.profile.components.PicProfile
 
 @Composable
-fun EditProfileScreen(modifier: Modifier = Modifier) {
+fun EditProfileScreen(navController: NavController) {
 Column {
 
     OptionProfile()
     Spacer(modifier = Modifier.height(20.dp))
     PicProfile()
     Spacer(modifier = Modifier.height(20.dp))
-    InputName(modifier = Modifier
-        .background(color = Color.White))
+    InputName()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun EditProfileScreenPrev() {
-    EditProfileScreen()
+    EditProfileScreen(navController = rememberNavController())
 }
