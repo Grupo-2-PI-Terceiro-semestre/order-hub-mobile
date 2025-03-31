@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.maps.secrets)
 }
 
 android {
@@ -60,11 +61,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.0.0")
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation("com.google.accompanist:accompanist-pager:0.30.1")
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
 
 
-//    implementation("com.google.maps.android:maps-compose:2.11.4") // Versão mais nova
-//    implementation("com.google.android.gms:play-services-maps:18.2.0") // Última versão do Google Maps SDK
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.maps.android:maps-compose:2.14.0")
 
 
     implementation(libs.androidx.material3)
@@ -75,6 +79,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+buildscript {
+    dependencies {
+        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+    }
 }
 
 

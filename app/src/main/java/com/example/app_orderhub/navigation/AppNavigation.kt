@@ -11,7 +11,7 @@ import com.example.app_orderhub.ui.auth.screens.RecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.screens.RegisterScreen
 import com.example.app_orderhub.ui.catolog.CatalogScreen
 import com.example.app_orderhub.ui.home.HomeScreen
-import com.example.app_orderhub.ui.notification.NotificationScreen
+import com.example.app_orderhub.ui.map.MapScreen
 import com.example.app_orderhub.ui.profile.EditProfileScreen
 import com.example.app_orderhub.ui.profile.ProfileScreen
 import com.example.app_orderhub.ui.profile.SchedulingScreen
@@ -37,9 +37,13 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
         composable("home") { HomeScreen(navController) }
         composable("search") { SearchScreen(navController) }
         composable("profile") { ProfileScreen(navController) }
-        composable("notification") { NotificationScreen(navController) }
+        composable("locale") { MapScreen(navController) }
         composable("scheduling") { SchedulingScreen(navController) }
-        composable("catalog") { CatalogScreen(navController) }
+        composable("catalog/{idEmpresa}") { backStackEntry ->
+            val idEmpresa = backStackEntry.arguments?.getString("idEmpresa") ?: ""
+            CatalogScreen(idEnterprise = idEmpresa, navController = navController)
+        }
+
         composable("editProfile") { EditProfileScreen(navController) }
     }
 }

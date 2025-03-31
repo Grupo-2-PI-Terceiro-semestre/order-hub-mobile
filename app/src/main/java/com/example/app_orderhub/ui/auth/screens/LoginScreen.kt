@@ -49,6 +49,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
     var scrollState = rememberScrollState()
 
     val client = authViewModel.client.collectAsState()
+
     val isLoading = authViewModel.isLoading.collectAsState()
     val errorMessage = authViewModel.errorMessage.collectAsState()
 

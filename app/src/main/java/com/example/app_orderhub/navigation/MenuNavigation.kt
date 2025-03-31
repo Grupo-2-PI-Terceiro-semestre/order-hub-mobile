@@ -46,7 +46,7 @@ fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("scheduling", Icons.Default.DateRange, "Agenda"),
         BottomNavItem("search", Icons.Default.Search, "Buscar"),
-        BottomNavItem("notification", Icons.Default.Notifications, "Notificações"),
+        BottomNavItem("locale", Icons.Default.LocationOn, "Mapa"),
         BottomNavItem("profile", Icons.Default.Person, "Perfil")
     )
 
@@ -80,9 +80,9 @@ fun BottomNavigationBar(navController: NavController) {
                     lineTo(centerX - waveWidth / 2, 0f)
 
                     cubicTo(
-                        centerX - waveWidth / 2 + 20f, waveHeight + 10f, // Ponto de controle esquerdo arredondado
-                        centerX + waveWidth / 2 - 20f, waveHeight + 10f, // Ponto de controle direito arredondado
-                        centerX + waveWidth / 2, 0f // Final da curva
+                        centerX - waveWidth / 2 + 20f, waveHeight + 10f,
+                        centerX + waveWidth / 2 - 20f, waveHeight + 10f,
+                        centerX + waveWidth / 2, 0f
                     )
                     lineTo(width, 0f)
                     lineTo(width, height)
