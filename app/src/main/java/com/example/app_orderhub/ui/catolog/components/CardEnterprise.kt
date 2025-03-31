@@ -21,18 +21,23 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.app_orderhub.domain.model.Enterprise
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
+import com.example.app_orderhub.ui.map.MapScreen
 import com.example.app_orderhub.ui.map.viewmodel.MapViewModel
+import kotlinx.coroutines.delay
 
 
 //@Preview
@@ -55,9 +60,22 @@ fun CardEnterprise(
         }
     }
 
+    val isLoading = remember { mutableStateOf(true) }
+    val timeoutReached = remember { mutableStateOf(false) }
+
+
 
     val locale by viewModel.locations.collectAsState()
     val name by viewModel.name.collectAsState()
+
+    LaunchedEffect(locale) {
+        delay(10_000) // Espera 10 segundos
+        if (locale.isEmpty()) {
+            timeoutReached.value = true
+            isLoading.value = false
+        }
+    }
+
 
     Card(
         modifier = modifier

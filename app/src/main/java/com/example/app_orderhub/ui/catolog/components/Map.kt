@@ -24,7 +24,6 @@ import com.google.maps.android.compose.*
 
 @Composable
 fun MapView(locale : LatLng? = LatLng(-23.55052, -46.633308), name: String? = "") {
-    val context = LocalContext.current
     val location = remember { mutableStateOf<LatLng?>(locale) }
 
     val defaultLocation = LatLng(-23.55052, -46.633308) // São Paulo
