@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_orderhub.ui.profile.components.InputName
+import com.example.app_orderhub.ui.profile.components.InputNumber
 import com.example.app_orderhub.ui.profile.components.OptionProfile
 import com.example.app_orderhub.ui.profile.components.PicProfile
 
@@ -25,7 +26,9 @@ Column {
     PicProfile()
     Spacer(modifier = Modifier.height(20.dp))
     InputName()
-    }
+    Spacer(modifier = Modifier.height(20.dp))
+
+}
 }
 
 @Preview(showBackground = true)
