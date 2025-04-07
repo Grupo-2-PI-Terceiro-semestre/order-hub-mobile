@@ -142,10 +142,8 @@ fun CardEnterprise(
         // Exibe a lista de serviços da empresa
         enterprise.servicos.forEach { service ->
             CardService(
-                titleService = service.nomeServico,
-                professionalName = getNameProfessionals(enterprise.proficionais),
-                valueService = service.precoServico.toString(),
-                timeService = service.duracaoServico,
+                service = service,
+                professional = enterprise.proficionais,
             )
         }
         Spacer(modifier = Modifier.height(20.dp))

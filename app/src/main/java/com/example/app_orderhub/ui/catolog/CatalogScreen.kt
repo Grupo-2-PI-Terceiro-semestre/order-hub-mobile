@@ -10,12 +10,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.catolog.components.CardEnterprise
-import com.example.app_orderhub.ui.catolog.components.CardService
 import com.example.app_orderhub.ui.catolog.components.ImageEnterprise
 import com.example.app_orderhub.ui.catolog.viewmodel.CatalogViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
@@ -76,13 +74,13 @@ fun CatalogScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun CardServicePreview() {
-    CardService(
-        titleService = "Corte de Cabelo",
-        professionalName = "João",
-        valueService = "R$ 30,00",
-        timeService = "30 min"
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun CardServicePreview() {
+//    CardService(
+//        titleService = "Corte de Cabelo",
+//        professionalName = "João",
+//        valueService = "R$ 30,00",
+//        timeService = "30 min"
+//    )
+//}
