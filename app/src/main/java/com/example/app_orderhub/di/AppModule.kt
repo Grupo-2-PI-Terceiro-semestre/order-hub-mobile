@@ -4,9 +4,11 @@ import com.example.app_orderhub.data.remote.AuthApi
 import com.example.app_orderhub.data.remote.CatalogApi
 import com.example.app_orderhub.data.remote.HomeApi
 import com.example.app_orderhub.data.remote.config.RetrofitClient
+import com.example.app_orderhub.data.remote.config.SearchApi
 import com.example.app_orderhub.data.repository.AuthRepository
 import com.example.app_orderhub.data.repository.CatalogRepository
 import com.example.app_orderhub.data.repository.HomeRepository
+import com.example.app_orderhub.data.repository.SearchRepository
 
 object AppModule {
 
@@ -29,4 +31,10 @@ object AppModule {
 
     // Cria a instância do Repository
     val catalogRepository: CatalogRepository = CatalogRepository(catalogApi)
+
+    // Cria a instância da API
+    private val searchApi: SearchApi = RetrofitClient.createApi(SearchApi::class.java)
+
+    // Cria a instância do Repository
+    val searchRepository: SearchRepository = SearchRepository(searchApi)
 }
