@@ -181,18 +181,15 @@ fun RegisterScreenPreviw(
                 fontSize = 20,
                 borderWidth = 1,
                 onClick = {
-//                    if (!isLoading) {
-//                        authViewModel.register(
-//                            onSuccess = {
-//                                navController.navigate("login") {
-//                                    popUpTo("register") { inclusive = true }
-//                                }
-//                            },
-//                            onError = { /* Pode exibir erro na tela se necessário */ }
-//                        )
-//                    }
-                    navController.navigate("login") {
-                        popUpTo("register") { inclusive = true }
+                    if (!isLoading) {
+                        authViewModel.register(
+                            onSuccess = {
+                                navController.navigate("login") {
+                                    popUpTo("register") { inclusive = true }
+                                }
+                            },
+                            onError = { /* Pode exibir erro na tela se necessário */ }
+                        )
                     }
                 }
             )

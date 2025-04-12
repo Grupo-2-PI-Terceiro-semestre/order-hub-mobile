@@ -14,10 +14,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.app_orderhub.R
+import com.example.app_orderhub.domain.model.Client
 
 @Composable
-fun PicProfile() {
-val nomeUsuario = "Cliente"
+fun PicProfile(client: Client) {
+val nomeUsuario = client.nomePessoa
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,8 +41,3 @@ val nomeUsuario = "Cliente"
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PicProfilePreview(){
-    PicProfile()
-}

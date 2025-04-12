@@ -20,16 +20,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.util.theme.ColorTextProfile
 
 @Composable
-fun OptionNavProfile(navController: NavController) {
-    ProfileOptionsList(navController)
+fun OptionNavProfile(navController: NavController, idClient : Int?) {
+    ProfileOptionsList(navController, idClient)
 }
 
 
 @Composable
-fun ProfileOptionsList(navController: NavController) {
+fun ProfileOptionsList(navController: NavController, idClient : Int?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,19 +45,18 @@ fun ProfileOptionsList(navController: NavController) {
             icon = Icons.Default.Person,
             title = "Minha Conta",
             subtitle = "Faça alterações em sua conta",
-            endIcon = Icons.Default.Warning,
             endIconColor = Color.Red,
             onclick = { }
         )
 
 
-        ProfileOption(
-            icon = Icons.Default.Lock,
-            title = "Face ID / Touch ID",
-            subtitle = "Gerencie a segurança do seu dispositivo",
-            hasSwitch = true,
-            onclick = { }
-        )
+//        ProfileOption(
+//            icon = Icons.Default.Lock,
+//            title = "Face ID / Touch ID",
+//            subtitle = "Gerencie a segurança do seu dispositivo",
+//            hasSwitch = true,
+//            onclick = { }
+//        )
 
 
         ProfileOption(
@@ -65,7 +65,7 @@ fun ProfileOptionsList(navController: NavController) {
             endIcon = Icons.Default.ArrowForward,
             onclick = {
                 navController.navigate("login") {
-                    popUpTo("editProfile") {
+                    popUpTo("editProfile/${idClient.toString()}") {
                         inclusive = true
                     }
                 }

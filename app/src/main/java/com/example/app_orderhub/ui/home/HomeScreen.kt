@@ -170,6 +170,7 @@ fun HorizontalCompanyList(navController: NavController, enterprises: List<Enterp
         modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
+            .height(250.dp)
     ) {
         enterprises.forEach { enterprise ->
             CompanyCard(

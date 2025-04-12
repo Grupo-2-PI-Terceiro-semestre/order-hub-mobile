@@ -8,6 +8,8 @@ import com.example.app_orderhub.domain.model.Client
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 class AuthViewModel() : ViewModel() {
 
@@ -39,16 +41,34 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun login(onSuccess: (Client) -> Unit, onError: (String) -> Unit) {
+        _isLoading.value = true
+
+        if(_client.value.emailPessoa.isEmpty() || _client.value.senha.isEmpty()) {
+            _errorMessage.value = "Email e senha são obrigatórios"
+            onError("Email e senha são obrigatórios")
+            _isLoading.value = false
+            return
+        }
+
         viewModelScope.launch {
-            _isLoading.value = true
             _errorMessage.value = null
+
 
             try {
                 val response = authRepository.login(_client.value)
                 val client = response.toClient()
-                onSuccess(client) // Chama o callback passando o objeto convertido
+                onSuccess(client)
+            } catch (e: HttpException) {
+                when (e.code()) {
+                    401 -> _errorMessage.value = "Email ou senha inválidos"
+                    else -> _errorMessage.value = "Erro de servidor: ${e.message()}"
+                }
+                onError(e.message())
+            } catch (e: IOException) {
+                _errorMessage.value = "Falha de conexão. Verifique sua internet."
+                onError(e.message ?: "Erro de rede")
             } catch (e: Exception) {
-                _errorMessage.value = e.message
+                _errorMessage.value = "Erro inesperado: ${e.message}"
                 onError(e.message ?: "Erro desconhecido")
             } finally {
                 _isLoading.value = false
@@ -57,8 +77,17 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun register(onSuccess: (Client) -> Unit, onError: (String) -> Unit) {
+
+        _isLoading.value = true
+
+        if(_client.value.nomePessoa.isEmpty() || _client.value.numeroTelefone.isEmpty() || _client.value.emailPessoa.isEmpty() || _client.value.senha.isEmpty()) {
+            _errorMessage.value = "Nome, telefone, email e senha são obrigatórios"
+            onError("Nome, telefone, email e senha são obrigatórios")
+            _isLoading.value = false
+            return
+        }
+
         viewModelScope.launch {
-            _isLoading.value = true
             _errorMessage.value = null
 
             try {
