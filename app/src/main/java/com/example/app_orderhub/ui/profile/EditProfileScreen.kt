@@ -17,6 +17,7 @@ import com.example.app_orderhub.ui.profile.components.InputNumber
 import com.example.app_orderhub.ui.profile.components.OptionProfile
 import com.example.app_orderhub.ui.profile.components.PicProfile
 
+
 @Composable
 fun EditProfileScreen(navController: NavController) {
 Column {
@@ -26,6 +27,8 @@ Column {
     PicProfile()
     Spacer(modifier = Modifier.height(20.dp))
     InputName()
+    Spacer(modifier = Modifier.height(20.dp))
+    InputNumber("+55")
     Spacer(modifier = Modifier.height(20.dp))
 
 }
