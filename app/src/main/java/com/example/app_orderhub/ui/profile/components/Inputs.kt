@@ -25,6 +25,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.app_orderhub.domain.model.Client
+import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -42,26 +44,22 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun Inputs(
     modifier: Modifier = Modifier,
-    client: Client
+    vm: ProfileViewModel,
 ) {
     val context = LocalContext.current
 
-    // Use remember com a chave do cliente para reinicializar quando o cliente mudar
-    var name by remember(client) { mutableStateOf(client.nomePessoa) }
-    var phoneNumer by remember(client) { mutableStateOf(client.numeroTelefone) }
-    var dateOfBirth by remember(client) { mutableStateOf(client.dataNascimento) }
-    var gender by remember(client) { mutableStateOf(client.genero) }
+    val client = vm.client.collectAsState().value
 
     val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     val datePickerDialog = remember { mutableStateOf<DatePickerDialog?>(null) }
 
     // Sempre que dateOfBirth mudar, atualizamos o dialog se ele existir
-    LaunchedEffect(dateOfBirth) {
+    LaunchedEffect(client.dataNascimento) {
         datePickerDialog.value?.updateDate(
-            dateOfBirth.year,
-            dateOfBirth.monthValue - 1,
-            dateOfBirth.dayOfMonth
+            client.dataNascimento.year,
+            client.dataNascimento.monthValue - 1,
+            client.dataNascimento.dayOfMonth
         )
     }
 
@@ -70,11 +68,11 @@ fun Inputs(
         DatePickerDialog(
             context,
             { _, year, month, dayOfMonth ->
-                dateOfBirth = LocalDate.of(year, month + 1, dayOfMonth)
+                client.dataNascimento = LocalDate.of(year, month + 1, dayOfMonth)
             },
-            dateOfBirth.year,
-            dateOfBirth.monthValue - 1,
-            dateOfBirth.dayOfMonth
+            client.dataNascimento.year,
+            client.dataNascimento.monthValue - 1,
+            client.dataNascimento.dayOfMonth
         ).also { dialog ->
             datePickerDialog.value = dialog
             dialog.show()
@@ -87,9 +85,9 @@ fun Inputs(
                 .clip(RoundedCornerShape(4.dp))
                 .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
                 .fillMaxWidth(),
-            valueOf = name,
+            valueOf = client.nomePessoa,
             labelText = "Nome:",
-            changeValue = { name = it }
+            changeValue = { vm.onNameChanged(it) }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -99,9 +97,9 @@ fun Inputs(
                 .clip(RoundedCornerShape(4.dp))
                 .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
                 .fillMaxWidth(),
-            valueOf = phoneNumer,
+            valueOf = client.numeroTelefone,
             labelText = "Número de Telefone:",
-            changeValue = { phoneNumer = it }
+            changeValue = { vm.onPhoneChanged(it) }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -116,8 +114,8 @@ fun Inputs(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = LocalTextStyle.current.copy(color = Color.Black),
-                value = dateOfBirth.format(dateFormatter),
-                onValueChange = {},
+                value = client.dataNascimento.format(dateFormatter),
+                onValueChange = { vm.onDateChanged(LocalDate.parse(it)) },
                 label = { Text("Data de Nascimento:", color = Color.Black) },
                 readOnly = true,
                 trailingIcon = {
@@ -141,8 +139,8 @@ fun Inputs(
         Spacer(modifier = Modifier.height(20.dp))
 
         ExposedGenderDropdown(
-            selectedOption = gender,
-            onOptionSelected = { gender = it }
+            selectedOption = client.genero,
+            onOptionSelected = { vm.onGenderChanged(it) }
         )
     }
 }

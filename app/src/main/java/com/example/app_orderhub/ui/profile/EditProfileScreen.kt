@@ -7,11 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +43,8 @@ fun EditProfileScreen(
     idClient: String,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
+
+
     LaunchedEffect(Unit) {
         profileViewModel.onIdClientChanged(idClient)
     }
@@ -46,29 +56,34 @@ fun EditProfileScreen(
         )
     }
 
-    val client = profileViewModel.client.collectAsState()
-
     MenuNavigation(navController) {
-            Column(
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(ColorBackGroundDefault)
+                .imePadding(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CardLayout(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(ColorBackGroundDefault)
-                    .imePadding(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
-                CardLayout(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    EditProfileScreenPrev(navController, client = client.value)
-                }
+                EditProfileScreenPrev(navController, profileViewModel)
             }
         }
+    }
 }
 
 @Composable
-private fun EditProfileScreenPrev(navController: NavController, client: Client) {
+private fun EditProfileScreenPrev(
+    navController: NavController,
+    profileViewModel: ProfileViewModel
+) {
+
+    val client = profileViewModel.client.collectAsState()
+    val showSuccessDialog = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,9 +92,9 @@ private fun EditProfileScreenPrev(navController: NavController, client: Client) 
     ) {
         OptionProfile(navController)
         Spacer(modifier = Modifier.height(20.dp))
-        PicProfile(client)
+        PicProfile(client.value)
         Spacer(modifier = Modifier.height(20.dp))
-        Inputs(client = client)
+        Inputs(vm = profileViewModel)
         Spacer(modifier = Modifier.height(70.dp))
         ButtonAuth(
             borderRadius = 10,
@@ -88,9 +103,57 @@ private fun EditProfileScreenPrev(navController: NavController, client: Client) 
             backgroundColor = OrderHubBlue,
             textColor = Color.White,
             borderColor = OrderHubBlue,
+            onClick = {
+                profileViewModel.editClient(
+                    onSuccess = {
+                        showSuccessDialog.value = true
+                    },
+                    onError = { /* Tratar erro */ }
+                )
+            },
             fontSize = 20,
             borderWidth = 1,
         )
         Spacer(modifier = Modifier.height(98.dp))
+    }
+
+    if (showSuccessDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showSuccessDialog.value = false },
+            title = {
+                Text(
+                    text = "Sucesso",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            },
+            text = {
+                Text(
+                    text = "Informações salvas com sucesso!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { showSuccessDialog.value = false },
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                ) {
+                    Text(
+                        text = "OK",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+            },
+            shape = RoundedCornerShape(16.dp),
+            containerColor = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp
+        )
     }
 }
