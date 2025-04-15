@@ -1,6 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.app_orderhub.ui.profile.components
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -39,6 +43,7 @@ import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 @Composable
@@ -63,48 +68,42 @@ fun Inputs(
         )
     }
 
-    // Função para criar/show o dialog
     fun showDatePicker() {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                client.dataNascimento = LocalDate.of(year, month + 1, dayOfMonth)
-            },
-            client.dataNascimento.year,
-            client.dataNascimento.monthValue - 1,
-            client.dataNascimento.dayOfMonth
-        ).also { dialog ->
-            datePickerDialog.value = dialog
-            dialog.show()
+        if (context is Activity && !context.isFinishing && !context.isDestroyed) {
+            val locale = Locale("pt", "BR")
+            Locale.setDefault(locale)
+
+            val resources = context.resources
+            val config = resources.configuration
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+
+            DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    vm.onDateChanged(LocalDate.of(year, month + 1, dayOfMonth))
+                },
+                client.dataNascimento.year,
+                client.dataNascimento.monthValue - 1,
+                client.dataNascimento.dayOfMonth
+            ).show()
         }
     }
 
+
     Column(modifier = modifier.padding(12.dp)) {
         CustomTextFild(
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
-                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                .fillMaxWidth(),
             valueOf = client.nomePessoa,
-            labelText = "Nome:",
+            labelText = "Nome Completo",
             changeValue = { vm.onNameChanged(it) }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        CustomTextFild(
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
-                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                .fillMaxWidth(),
-            valueOf = client.numeroTelefone,
-            labelText = "Número de Telefone:",
-            changeValue = { vm.onPhoneChanged(it) }
-        )
+        InputNumber("BR", vm = vm, client = client)
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Campo de Data com borda
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,7 +115,7 @@ fun Inputs(
                 textStyle = LocalTextStyle.current.copy(color = Color.Black),
                 value = client.dataNascimento.format(dateFormatter),
                 onValueChange = { vm.onDateChanged(LocalDate.parse(it)) },
-                label = { Text("Data de Nascimento:", color = Color.Black) },
+                label = { Text("Data de Nascimento", color = Color.Black) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = ::showDatePicker) {
@@ -163,7 +162,7 @@ fun ExposedGenderDropdown(
             value = selectedOption,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Gênero:", color = Color.Black) },
+            label = { Text("Gênero", color = Color.Black) },
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true },
@@ -226,7 +225,10 @@ fun CustomTextFild(
             Text(text = labelText, color = Color.Black)
         },
         textStyle = androidx.compose.ui.text.TextStyle(color = Color.Black),
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(4.dp))
+            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+            .fillMaxWidth(),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,

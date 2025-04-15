@@ -7,18 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.app_orderhub.R
-import com.example.app_orderhub.domain.model.Client
 
 @Composable
-fun PicProfile(client: Client) {
-val nomeUsuario = client.nomePessoa
+fun PicProfile() {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,13 +27,6 @@ val nomeUsuario = client.nomePessoa
             contentDescription = "Foto de Perfil",
             modifier = Modifier
                 .size(80.dp)
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = nomeUsuario,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
         )
     }
 }

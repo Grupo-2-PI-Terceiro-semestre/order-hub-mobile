@@ -21,6 +21,8 @@ class ProfileViewModel : ViewModel() {
     private val _client = MutableStateFlow<Client>(Client())
     val client: StateFlow<Client> = _client
 
+    val clientName: String = _client.value.nomePessoa
+
     fun onNameChanged(newValue: String) {
         _client.value = _client.value.copy(nomePessoa = newValue)
     }

@@ -1,5 +1,6 @@
 package com.example.app_orderhub.ui.profile
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.profile.components.Inputs
@@ -36,6 +36,7 @@ import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import com.example.app_orderhub.util.components.CardLayout
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
+
 
 @Composable
 fun EditProfileScreen(
@@ -75,13 +76,13 @@ fun EditProfileScreen(
     }
 }
 
+
 @Composable
 private fun EditProfileScreenPrev(
     navController: NavController,
     profileViewModel: ProfileViewModel
 ) {
 
-    val client = profileViewModel.client.collectAsState()
     val showSuccessDialog = remember { mutableStateOf(false) }
 
     Column(
@@ -91,8 +92,8 @@ private fun EditProfileScreenPrev(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OptionProfile(navController)
-        Spacer(modifier = Modifier.height(20.dp))
-        PicProfile(client.value)
+        Spacer(modifier = Modifier.height(63.dp))
+        PicProfile()
         Spacer(modifier = Modifier.height(20.dp))
         Inputs(vm = profileViewModel)
         Spacer(modifier = Modifier.height(70.dp))
