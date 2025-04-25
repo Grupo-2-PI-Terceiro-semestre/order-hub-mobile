@@ -18,7 +18,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,15 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.app_orderhub.domain.model.Enterprise
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
-import com.example.app_orderhub.ui.map.MapScreen
 import com.example.app_orderhub.ui.map.viewmodel.MapViewModel
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.delay
 
 
@@ -63,14 +61,22 @@ fun CardEnterprise(
     val isLoading = remember { mutableStateOf(true) }
     val timeoutReached = remember { mutableStateOf(false) }
 
+    var locale: LatLng? = null
 
 
-    val locale by viewModel.locations.collectAsState()
+    if (enterprise.endereco.lat != null && enterprise.endereco.lng != null) {
+        locale = LatLng(enterprise.endereco.lat.toDouble(), enterprise.endereco.lng.toDouble())
+    } else {
+        locale =
+            if (viewModel.locations.collectAsState().value.isNotEmpty()) viewModel.locations.collectAsState().value[0] else null
+    }
+
+
     val name by viewModel.name.collectAsState()
 
     LaunchedEffect(locale) {
-        delay(10_000) // Espera 10 segundos
-        if (locale.isEmpty()) {
+        delay(10_000)
+        if (locale == null) {
             timeoutReached.value = true
             isLoading.value = false
         }
@@ -93,9 +99,9 @@ fun CardEnterprise(
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(Color.White)
     ) {
-        Column (
+        Column(
             modifier = Modifier.padding(8.dp)
-        ){
+        ) {
             Text(
                 color = Color.Black,
                 fontSize = 14.sp,
@@ -123,10 +129,10 @@ fun CardEnterprise(
                 .height(200.dp),
             contentAlignment = Alignment.Center
         ) {
-            if (locale.isEmpty()) {
+            if (locale == null) {
                 CircularProgressIndicator()
             } else {
-                MapView(locale[0], name.getOrElse(0) { "Localização não encontrada" })
+                MapView(locale, name.getOrElse(0) { "Localização não encontrada" })
             }
         }
 
