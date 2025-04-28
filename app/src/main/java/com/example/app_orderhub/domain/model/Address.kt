@@ -8,8 +8,10 @@ data class Address(
     val uf: String,
     val cep: String,
     val numero: String,
-    val complemento: String
-){
+    val complemento: String,
+    val lat : String,
+    val lng : String
+) {
     constructor() : this(
         idEndereco = 0,
         logradouro = "",
@@ -18,7 +20,28 @@ data class Address(
         uf = "",
         cep = "",
         numero = "",
-        complemento = ""
+        complemento = "",
+        lat = "",
+        lng = ""
+    )
+
+    constructor(
+        logradouro: String,
+        cidade: String,
+        uf: String,
+        cep: String,
+        numero: String
+    ) : this(
+        idEndereco = 0,
+        logradouro = logradouro,
+        cidade = cidade,
+        bairro = "",
+        uf = uf,
+        cep = cep,
+        numero = numero,
+        complemento = "",
+        lat = "",
+        lng = ""
     )
 
     constructor(
@@ -36,6 +59,41 @@ data class Address(
         uf = uf,
         cep = cep,
         numero = numero,
-        complemento = ""
+        complemento = "",
+        lat = "",
+        lng = ""
+    )
+
+    constructor(
+        bairro: String,
+        cidade: String,
+        uf: String
+    ) : this(
+        idEndereco = 0,
+        logradouro = "",
+        cidade = cidade,
+        bairro = bairro,
+        uf = uf,
+        cep = "",
+        numero = "",
+        complemento = "",
+        lat = "",
+        lng = ""
+    )
+
+    constructor(
+        bairro: String,
+        cidade: String,
+    ) : this(
+        idEndereco = 0,
+        logradouro = "",
+        cidade = cidade,
+        bairro = bairro,
+        uf = "",
+        cep = "",
+        numero = "",
+        complemento = "",
+        lat = "",
+        lng = ""
     )
 }

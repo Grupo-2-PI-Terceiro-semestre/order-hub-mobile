@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 fun SearchBar(
     value: String,
     onValueChange: (String) -> Unit,
+    onSearchAction: () -> Unit, // Novo parâmetro para chamar a ação de pesquisa
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
@@ -54,22 +55,26 @@ fun SearchBar(
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
+            imeAction = ImeAction.Search // Definindo o ImeAction como pesquisa
         ),
         keyboardActions = KeyboardActions(
-            onSearch = { focusManager.clearFocus() }
+            onSearch = { // Ao pressionar o botão de pesquisa no teclado
+                onSearchAction() // Chama a função de pesquisa
+                focusManager.clearFocus() // Remove o foco do campo de texto
+            }
         )
     )
 }
 
 
-@Composable
-@Preview(showBackground = true)
-fun PreviewSearchBar() {
-    var searchText by remember { mutableStateOf("") }
-
-    SearchBar(
-        value = searchText,
-        onValueChange = { searchText = it }
-    )
-}
+//
+//@Composable
+//@Preview(showBackground = true)
+//fun PreviewSearchBar() {
+//    var searchText by remember { mutableStateOf("") }
+//
+//    SearchBar(
+//        value = searchText,
+//        onValueChange = { searchText = it }
+//    )
+//}

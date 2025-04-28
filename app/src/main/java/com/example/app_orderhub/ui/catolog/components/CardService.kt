@@ -4,26 +4,29 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.app_orderhub.domain.model.Professional
+import com.example.app_orderhub.domain.model.Service
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
-@Preview(showBackground = true)
 @Composable
 fun CardService(
     modifier: Modifier = Modifier,
-    titleService: String = "",
-    professionalName: String = "",
-    valueService: String = "",
-    timeService: String = "",
+    service: Service,
+    professional: List<Professional>
 ) {
+    var showSchedule by remember { mutableStateOf(false) } // Estado do modal
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -45,19 +48,14 @@ fun CardService(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Informações do serviço
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = titleService,
+                    text = service.nomeServico,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black
                 )
-
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Column {
                     Text(
                         text = "Profissional:",
@@ -66,51 +64,34 @@ fun CardService(
                         color = Color.Black
                     )
                     Text(
-                        text = professionalName,
+                        text = getNameProfessionals(professional),
                         fontSize = 12.sp,
-                        color = Color.Gray,
-                        fontStyle = FontStyle.Normal,
-                        modifier = Modifier.offset(y = (-8).dp) // Move o texto para cima
+                        color = Color.Gray
                     )
                 }
-
-
-
             }
 
-            // Preço e tempo
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     color = Color.Black,
-                    text = valueService,
+                    text = service.precoServico.toString(),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Divider(
-                    color = Color.Black,
-                    thickness = 1.dp,
-                    modifier = Modifier.width(50.dp)
-                )
-
+                Divider(color = Color.Black, thickness = 1.dp, modifier = Modifier.width(50.dp))
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Text(
                     color = Color.Black,
-                    text = timeService,
+                    text = service.duracaoServico,
                     fontSize = 14.sp
                 )
             }
 
             Spacer(modifier = Modifier.width(20.dp))
 
-            // Botão de agendamento
             Button(
-                onClick = { /* Ação ao clicar */ },
+                onClick = { showSchedule = true }, // Abrir modal ao clicar
                 modifier = Modifier
                     .height(40.dp)
                     .width(120.dp),
@@ -126,4 +107,13 @@ fun CardService(
             }
         }
     }
+
+    if (showSchedule) {
+        ScheduleModal(onDismiss = { showSchedule = false }, service, professional) // Exibir modal
+    }
+
+    fun getNameProfessionals(professional: List<Professional>): String {
+        return professional.joinToString(", ") { it.nomePessoa }.toString()
+    }
 }
+

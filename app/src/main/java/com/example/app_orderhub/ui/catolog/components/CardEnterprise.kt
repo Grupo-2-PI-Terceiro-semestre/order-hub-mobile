@@ -1,8 +1,12 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.app_orderhub.ui.catolog.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -10,31 +14,75 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.app_orderhub.domain.model.Enterprise
+import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
+import com.example.app_orderhub.ui.map.viewmodel.MapViewModel
+import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.delay
 
 
-@Preview
-@Composable
-private fun CardEnterprisePreview() {
-    CardEnterprise()
-}
+//@Preview
+//@Composable
+//private fun CardEnterprisePreview() {
+//    CardEnterprise()
+//}
 
 
 @Composable
 fun CardEnterprise(
     modifier: Modifier = Modifier,
-    enterprise: Enterprise = Enterprise()
+    enterprise: Enterprise = Enterprise(),
+    viewModel: MapViewModel = viewModel()
 ) {
+
+    LaunchedEffect(enterprise.endereco) {
+        if (enterprise.endereco.logradouro.isNotEmpty()) {
+            viewModel.setLocation(enterprise)
+        }
+    }
+
+    val isLoading = remember { mutableStateOf(true) }
+    val timeoutReached = remember { mutableStateOf(false) }
+
+    var locale: LatLng? = null
+
+
+    if (enterprise.endereco.lat != null && enterprise.endereco.lng != null) {
+        locale = LatLng(enterprise.endereco.lat.toDouble(), enterprise.endereco.lng.toDouble())
+    } else {
+        locale =
+            if (viewModel.locations.collectAsState().value.isNotEmpty()) viewModel.locations.collectAsState().value[0] else null
+    }
+
+
+    val name by viewModel.name.collectAsState()
+
+    LaunchedEffect(locale) {
+        delay(10_000)
+        if (locale == null) {
+            timeoutReached.value = true
+            isLoading.value = false
+        }
+    }
+
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -51,9 +99,9 @@ fun CardEnterprise(
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(Color.White)
     ) {
-        Column (
+        Column(
             modifier = Modifier.padding(8.dp)
-        ){
+        ) {
             Text(
                 color = Color.Black,
                 fontSize = 14.sp,
@@ -75,7 +123,19 @@ fun CardEnterprise(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        MapView()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .height(200.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            if (locale == null) {
+                CircularProgressIndicator()
+            } else {
+                MapView(locale, name.getOrElse(0) { "Localização não encontrada" })
+            }
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             modifier = Modifier.padding(8.dp),
@@ -88,10 +148,8 @@ fun CardEnterprise(
         // Exibe a lista de serviços da empresa
         enterprise.servicos.forEach { service ->
             CardService(
-                titleService = service.nomeServico,
-                professionalName = getNameProfessionals(service.proficional),
-                valueService = service.precoServico,
-                timeService = service.duracaoServico.toString(),
+                service = service,
+                professional = enterprise.proficionais,
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -99,10 +157,10 @@ fun CardEnterprise(
 }
 
 fun getNameServices(services: List<Service>): String {
-    return services.joinToString(", ") { it.nomeServico }
+    return services.joinToString(", ") { it.nomeServico }.toString()
 }
 
-fun getNameProfessionals(professional: List<String>): String {
-    return professional.joinToString(", ") { it.toString() }
+fun getNameProfessionals(professional: List<Professional>): String {
+    return professional.joinToString(", ") { it.nomePessoa }.toString()
 }
 

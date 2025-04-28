@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
 
-<!--    <uses-feature android:name="android.hardware.location.gps"/>-->
+    <!-- Permissões necessárias -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-<!--    <meta-data-->
-<!--        android:name="com.google.android.geo.API_KEY"-->
-<!--        android:value="AIzaSyDz7PlwrKvJbxV8U7W5Pj4Af63BF-JSSe4" />-->
-
+    <!-- Declaração da aplicação -->
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_launcher_background"
@@ -20,16 +17,28 @@
         android:roundIcon="@drawable/logoinicio"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppOrderHub"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!-- Chave de API do Google Maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDz7PlwrKvJbxV8U7W5Pj4Af63BF-JSSe4" />
+
+        <!-- Versão dos serviços do Google Play -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Atividade principal -->
         <activity
-            android:windowSoftInputMode="adjustResize"
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppOrderHub">
+            android:theme="@style/Theme.AppOrderHub"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

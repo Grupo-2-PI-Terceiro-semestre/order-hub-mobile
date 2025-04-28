@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private val BASE_URL = "https://6464-177-8-164-141.ngrok-free.app/api/v1/"
+    private const val BASE_URL = "http://100.26.89.62/api/v1/"
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(0, TimeUnit.MILLISECONDS)

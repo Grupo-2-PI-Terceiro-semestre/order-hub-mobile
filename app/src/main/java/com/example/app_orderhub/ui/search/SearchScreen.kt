@@ -1,18 +1,28 @@
 package com.example.app_orderhub.ui.search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,15 +30,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.app_orderhub.domain.model.Enterprise
 import com.example.app_orderhub.navigation.MenuNavigation
+import com.example.app_orderhub.ui.home.HorizontalCompanyList
+import com.example.app_orderhub.ui.home.viewmodel.HomeViewModel
+import com.example.app_orderhub.ui.search.viewmodel.SearchViewModel
 import com.example.app_orderhub.util.components.CompanyCard
 import com.example.app_orderhub.util.components.SearchBar
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, searchViewModel: SearchViewModel = viewModel()) {
+
+    val param = searchViewModel.param.collectAsState()
+
+    val enterprises = searchViewModel.enterprises.collectAsState()
+
+    val enterprisesForCategory = searchViewModel.enterprisesForCategory.collectAsState()
+
+    val isLoading = searchViewModel.isLoading.collectAsState()
+
+    val isLoadingCategory = searchViewModel.isLoadingCategory.collectAsState()
+
+    LaunchedEffect(Unit) {
+        searchViewModel.getEnterprises(
+            onSuccess = {},
+            onError = { /* Pode exibir erro na tela se necessário */ }
+        )
+    }
 
     MenuNavigation(navController) {
         Column(
@@ -40,8 +72,14 @@ fun SearchScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             SearchBar(
-                value = "",
-                onValueChange = {},
+                value = param.value.toString(),
+                onValueChange = searchViewModel::onParamChanged,
+                onSearchAction = {
+                    searchViewModel.getEnterprises(
+                        onSuccess = {},
+                        onError = { /* Pode exibir erro na tela se necessário */ }
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -58,7 +96,24 @@ fun SearchScreen(navController: NavController) {
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-                ContentSearch(navController)
+//                ContentSearch(navController)
+
+            // 🔹 Exibir o loading enquanto os dados estão carregando
+            if (isLoading.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(100.dp)
+                    )
+                }
+            } else {
+
+                VerticalCompanyList(navController, enterprises.value ?: emptyList())
+            }
         }
     }
 }
@@ -117,4 +172,29 @@ fun ContentSearch(navController: NavController) {
 @Preview
 fun PreviewSearchScreen() {
     SearchScreen(rememberNavController())
+}
+
+@Composable
+fun VerticalCompanyList(navController: NavController, enterprises: List<Enterprise>) {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        enterprises.forEach { enterprise ->
+            CompanyCard(
+                imagemUrl = enterprise.imagens.firstOrNull()
+                    ?: "", // Pega a primeira imagem ou usa string vazia
+                bairro = enterprise.endereco.bairro,
+                nomeEmpresa = enterprise.nomeEmpresa,
+                servicos = enterprise.servicos.joinToString(", ") { it.nomeServico }, // Concatena os nomes dos serviços
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .height(210.dp),
+                isFullWidth = true,
+                onClick = { navController.navigate("catalog/${enterprise.idEmpresa}") }
+            )
+        }
+    }
 }
