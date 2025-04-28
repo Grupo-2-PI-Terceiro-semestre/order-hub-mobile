@@ -80,4 +80,20 @@ data class Address(
         lat = "",
         lng = ""
     )
+
+    constructor(
+        bairro: String,
+        cidade: String,
+    ) : this(
+        idEndereco = 0,
+        logradouro = "",
+        cidade = cidade,
+        bairro = bairro,
+        uf = "",
+        cep = "",
+        numero = "",
+        complemento = "",
+        lat = "",
+        lng = ""
+    )
 }

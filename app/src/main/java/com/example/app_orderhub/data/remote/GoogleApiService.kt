@@ -6,12 +6,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
+import com.google.gson.JsonObject
 
 interface GoogleApiService {
     @GET("search?format=json")
     suspend fun getGeocode(
         @Query("q") address: String
     ): List<NominatimResponse>
+
+    @GET("reverse?format=json")
+    suspend fun getReverseGeocode(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double
+    ): JsonObject
 
     companion object {
         private const val BASE_URL = "https://nominatim.openstreetmap.org/"

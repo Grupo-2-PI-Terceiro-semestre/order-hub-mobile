@@ -1,6 +1,7 @@
 package com.example.app_orderhub.data.remote
 
 import com.example.app_orderhub.data.model.home.EnterpriseResponse
+import com.example.app_orderhub.domain.model.Address
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
