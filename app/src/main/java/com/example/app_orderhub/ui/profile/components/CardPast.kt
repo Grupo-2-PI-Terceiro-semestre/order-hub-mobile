@@ -11,16 +11,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.app_orderhub.util.theme.OrderHubBlue
+import com.example.app_orderhub.domain.model.Schedule
 
 @Composable
 fun CardPast(
-    date: String = "Sab, 13 junho 2024",
-    serviceName: String = "Corte e Barba",
-    professionalName: String = "Com Kevin Silva",
-    status: String = "FINALIZADA",
-    imagemUrl: String = "https://www.barbeariank.com.br/wp-content/uploads/2021/06/Logo-Barbearia-NK-1.png",
+//    date: String = "Sab, 13 junho 2024",
+//    serviceName: String = "Corte e Barba",
+//    professionalName: String = "Com Kevin Silva",
+//    status: String = "FINALIZADA",
+//    imagemUrl: String = "https://www.barbeariank.com.br/wp-content/uploads/2021/06/Logo-Barbearia-NK-1.png",
     onReschedule: () -> Unit = {},
+    schedule: Schedule = Schedule(),
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -29,7 +30,7 @@ fun CardPast(
             .padding(bottom = 8.dp)
     ) {
         Text(
-            text = date,
+            text = "${schedule.dataHora}",
             fontSize = 14.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,
@@ -63,7 +64,7 @@ fun CardPast(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = serviceName,
+                            text = "${schedule.nomeServico}",
                             fontSize = 14.sp,
                             color = Color.Gray,
                             modifier = Modifier
@@ -73,7 +74,7 @@ fun CardPast(
                     }
 
                     Text(
-                        text = status,
+                        text = "${schedule.status}",
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
                         color = Color(0xFF2196F3),
