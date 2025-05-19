@@ -27,17 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_orderhub.R
+import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun ProfileCard(navController: NavController) {
-    ProfileCardPrev(navController)
+fun ProfileCard(navController: NavController, client: Client?) {
+    ProfileCardPrev(navController, client)
 }
 
 
 @Composable
-private fun ProfileCardPrev(navController: NavController) {
-    var nomeUsuario = "Cliente";
+private fun ProfileCardPrev(navController: NavController, client: Client?) {
+    var nomeUsuario = client?.nomePessoa;
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +46,7 @@ private fun ProfileCardPrev(navController: NavController) {
         colors = CardDefaults.cardColors(containerColor = OrderHubBlue), // Azul
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-        onClick = { navController.navigate("editProfile") }
+        onClick = { navController.navigate("editProfile/${client?.idPessoa}") }
     ) {
         Row(
             modifier = Modifier
@@ -66,7 +67,7 @@ private fun ProfileCardPrev(navController: NavController) {
 
             // Nome do usuário
             Text(
-                text = nomeUsuario,
+                text = nomeUsuario ?: "Nome do Usuário",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White

@@ -8,6 +8,8 @@ import androidx.compose.runtime.State
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.app_orderhub.data.remote.GoogleApiService
+import com.example.app_orderhub.di.AppModule
+import com.example.app_orderhub.domain.model.Address
 import com.example.app_orderhub.domain.model.Enterprise
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -21,6 +23,9 @@ import kotlinx.coroutines.launch
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val catalogRepository = AppModule.catalogRepository
+
+
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(application)
 
@@ -32,6 +37,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _name = MutableStateFlow<List<String?>>(emptyList())
     val name: StateFlow<List<String?>> = _name
+
+    private val _urlImage = MutableStateFlow<String?>(null)
+    val urlImage: StateFlow<String?> = _urlImage
 
     init {
         getUserLocation()
@@ -85,6 +93,71 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             _name.value = newNames
         }
     }
+
+    @SuppressLint("MissingPermission")
+    fun getUserLocationAndFetchLocations() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_HIGH_ACCURACY,
+                    CancellationTokenSource().token
+                )
+                result.addOnSuccessListener { location ->
+                    location?.let {
+                        _userLocation.value = LatLng(it.latitude, it.longitude)
+                        Log.d("MapViewModel", "Localização do usuário: ${it.latitude}, ${it.longitude}")
+
+                        // Agora faz o Reverse Geocoding para pegar a cidade
+                        fetchCityAndLocations(it.latitude, it.longitude)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MapViewModel", "Erro ao obter localização do usuário: ${e.message}")
+            }
+        }
+    }
+
+    private fun fetchCityAndLocations(latitude: Double, longitude: Double) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = GoogleApiService.instance.getReverseGeocode(latitude, longitude)
+
+                val addressJson = response.getAsJsonObject("address")
+                val city = addressJson.get("city")?.asString
+                    ?: addressJson.get("town")?.asString
+                    ?: addressJson.get("village")?.asString
+
+                val suburb = addressJson.get("suburb")?.asString
+
+                city?.let {
+                    fetchLocationsFromCity(it, suburb ?: "")
+                }
+
+            } catch (e: Exception) {
+                Log.e("MapViewModel", "Erro ao buscar cidade: ${e.message}")
+            }
+        }
+    }
+
+    private fun fetchLocationsFromCity(city: String, suburb: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+
+                val locationsResponse = catalogRepository.getEnterprisesForLocation(city,suburb)
+                
+                val newLocations = locationsResponse.map { LatLng(it.endereco.lat.toDouble(), it.endereco.lng.toDouble()) }
+
+                val newNames = locationsResponse.map { it.nomeEmpresa }
+
+                _locations.value = newLocations
+                _name.value = newNames
+
+            } catch (e: Exception) {
+                Log.e("MapViewModel", "Erro ao buscar locais da cidade: ${e.message}")
+            }
+        }
+    }
+
 
     @SuppressLint("SuspiciousIndentation")
     fun setLocation(enterprise: Enterprise) {

@@ -41,9 +41,10 @@ import com.example.app_orderhub.ui.auth.components.Title
 import com.example.app_orderhub.ui.auth.viewmodel.AuthViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+fun LoginScreen(navController: NavController, sharedClientViewModel: SharedClientViewModel, authViewModel: AuthViewModel = viewModel()) {
 
     val imeState = rememberImeState()
     var scrollState = rememberScrollState()
@@ -74,6 +75,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
             FormLogin(
                 navController = navController,
                 authViewModel =  authViewModel,
+                sharedClientViewModel = sharedClientViewModel,
                 client = client.value,
                 isLoading =  isLoading.value,
                 errorMessage =  errorMessage.value
@@ -120,6 +122,7 @@ fun FormLogin(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel,
+    sharedClientViewModel: SharedClientViewModel,
     client: Client,
     isLoading: Boolean,
     errorMessage: String?
@@ -175,7 +178,7 @@ fun FormLogin(
 
             ButtonRecoverPasswordPreview(navController)
             Spacer(modifier.height(16.dp))
-            ButtonsPreview(navController, authViewModel, isLoading)
+            ButtonsPreview(navController, authViewModel, isLoading, sharedClientViewModel)
             Spacer(modifier.height(16.dp))
             DividerSpace(content = "Continuar Usando")
         }
@@ -203,7 +206,12 @@ private fun ButtonRecoverPasswordPreview(navController: NavController) {
 
 
 @Composable
-private fun ButtonsPreview(navController: NavController, authViewModel: AuthViewModel, isLoading: Boolean) {
+private fun ButtonsPreview(
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    isLoading: Boolean,
+    sharedClientViewModel: SharedClientViewModel = viewModel(),
+    ) {
     Box {
         ButtonAuth(
             borderRadius = 10,
@@ -211,18 +219,18 @@ private fun ButtonsPreview(navController: NavController, authViewModel: AuthView
             borderColor = OrderHubBlue,
             fontSize = 20,
             onClick = {
-//                if (!isLoading) {
-//                    authViewModel.login(
-//                        onSuccess = {
-//                            navController.navigate("home") {
-//                                popUpTo("login") { inclusive = true }
-//                            }
-//                        },
-//                        onError = { /* Pode exibir erro na tela se necessário */ }
-//                    )
-//                }
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
+                if (!isLoading) {
+                    authViewModel.login(
+                        onSuccess = { client ->
+
+                            sharedClientViewModel.setClient(client)
+
+                            navController.navigate("home") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        },
+                        onError = { /* Pode exibir erro na tela se necessário */ }
+                    )
                 }
             }
         )
