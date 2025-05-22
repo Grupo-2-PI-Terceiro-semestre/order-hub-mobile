@@ -53,13 +53,14 @@ data class Enterprise(
     )
 
     constructor(
+        idEmpresa: Int,
         nomeEmpresa: String,
         endereco: Address,
         imagens: List<String>,
         servicos: List<Service>,
         proficionais : List<Professional>
     ) : this(
-        idEmpresa = 0,
+        idEmpresa = idEmpresa,
         nomeEmpresa = nomeEmpresa,
         endereco = endereco,
         imagens = imagens,

@@ -30,10 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.app_orderhub.domain.model.Enterprise
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
 import com.example.app_orderhub.ui.map.viewmodel.MapViewModel
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.delay
 
@@ -49,7 +51,9 @@ import kotlinx.coroutines.delay
 fun CardEnterprise(
     modifier: Modifier = Modifier,
     enterprise: Enterprise = Enterprise(),
-    viewModel: MapViewModel = viewModel()
+    viewModel: MapViewModel = viewModel(),
+    sharedClientViewModel : SharedClientViewModel,
+    navController : NavController
 ) {
 
     LaunchedEffect(enterprise.endereco) {
@@ -148,8 +152,11 @@ fun CardEnterprise(
         // Exibe a lista de serviços da empresa
         enterprise.servicos.forEach { service ->
             CardService(
+                idEnterprise = enterprise.idEmpresa.toString(),
                 service = service,
                 professional = enterprise.proficionais,
+                sharedClientViewModel = sharedClientViewModel,
+                navController = navController
             )
         }
         Spacer(modifier = Modifier.height(20.dp))

@@ -17,6 +17,7 @@ import com.example.app_orderhub.ui.catolog.components.CardEnterprise
 import com.example.app_orderhub.ui.catolog.components.ImageEnterprise
 import com.example.app_orderhub.ui.catolog.viewmodel.CatalogViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 
 //@Preview
@@ -29,7 +30,8 @@ import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 fun CatalogScreen(
     idEnterprise: String,
     navController: NavController,
-    catalogViewModel: CatalogViewModel = viewModel()
+    catalogViewModel: CatalogViewModel = viewModel(),
+    sharedClientViewModel: SharedClientViewModel
 ) {
     MenuNavigation(navController) {
 
@@ -43,6 +45,7 @@ fun CatalogScreen(
                 onError = { /* Pode exibir erro na tela se necessário */ }
             )
         }
+
 
         val enterprises = catalogViewModel.enterprise.collectAsState()
 
@@ -67,9 +70,11 @@ fun CatalogScreen(
             }
             enterprises.value?.let {
                 CardEnterprise(
-                    enterprise = it
+                    enterprise = it,
+                    sharedClientViewModel = sharedClientViewModel,
+                    navController = navController
                 )
-        }
+            }
         }
     }
 }
