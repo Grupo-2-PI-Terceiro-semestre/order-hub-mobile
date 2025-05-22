@@ -46,7 +46,7 @@ fun AppNavigation(
         composable("scheduling") { SchedulingScreen(navController) }
         composable("catalog/{idEnterprise}") { backStackEntry ->
             val idEmpresa = backStackEntry.arguments?.getString("idEnterprise") ?: ""
-            CatalogScreen(idEnterprise = idEmpresa, navController = navController)
+            CatalogScreen(idEnterprise = idEmpresa, navController = navController, sharedClientViewModel = sharedClientViewModel)
         }
 
         composable("editProfile/{idClient}") { backStackEntry ->
