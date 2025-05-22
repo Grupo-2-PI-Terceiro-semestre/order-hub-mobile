@@ -39,7 +39,7 @@ class ScheduleViewModel : ViewModel() {
             _errorMessage.value = null
 
             try {
-                val response = scheduleRepository.getSchedule(_param.value ?: "")
+                val response = scheduleRepository.getSchedule("11")
                 val schedules = response.toSchedules()
                 _schedule.value = schedules
                 onSuccess(schedules)

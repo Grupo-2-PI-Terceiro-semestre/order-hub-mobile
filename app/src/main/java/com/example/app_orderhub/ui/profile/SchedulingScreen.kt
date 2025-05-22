@@ -22,18 +22,40 @@ import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.catolog.components.ImageEnterprise
 import com.example.app_orderhub.ui.components.CardCurrent
 import com.example.app_orderhub.ui.components.CardPast
+import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 
 @Composable
-fun SchedulingScreen(navController: NavController) {
+fun SchedulingScreen(
+    navController: NavController
+) {
     MenuNavigation(navController) {
-       ContentScheduling()
+       ContentScheduling(idClient = "11" )
     }
 }
 
 @Composable
-fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
+fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
+                      idClient: String) {
+
+    val schedulesState  = scheduleViewModel.schedules.collectAsState()
+
+    LaunchedEffect(Unit) {
+        scheduleViewModel.onParamChanged(idClient)
+    }
+
+    LaunchedEffect(Unit) {
+        scheduleViewModel.getSchedule(
+            onSuccess = {
+                print("Sucesso ao carregar agendamentos")
+            },
+            onError = {
+                print("Erro ao carregar agendamentos")
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,13 +63,6 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        LaunchedEffect(Unit) {
-            scheduleViewModel.getSchedule(
-                onSuccess = {},
-                onError = { /* Pode exibir erro na tela se necessário */ }
-            )
-        }
 
         Box(
             modifier = Modifier
@@ -78,9 +93,6 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
 //            modifier = Modifier.padding(horizontal = 20.dp)
 //        )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-
         Text(
             text = "Reservas Finalizadas",
             fontSize = 20.sp,
@@ -94,34 +106,28 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        val schedules = scheduleViewModel.schedules.collectAsState()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(ColorBackGroundDefault)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
-            schedules.value?.forEach { schedule ->
-//                val urlImages = if (schedule.imageUrl.isEmpty()) {
-//                    listOf("https://sintep.org.br/sintep/admin/uploads/arquivos/1634930642sem-foto.png")
-//                } else {
-//                    schedule.imagens
-//                }
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(ColorBackGroundDefault)
+//                .verticalScroll(rememberScrollState()),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
 
-//                ImageEnterprise(
-//                    nameEnterprise = schedule.nomeServico,
-//                    urlImages = urlImages
-//                )
 
-                CardPast(
-                    schedule = schedule
-                )
+//        schedules.value?.forEach { schedule ->
+//            CardPast(schedule = schedule)
+//            Spacer(modifier = Modifier.height(16.dp))
+//        }
 
+        schedulesState.value?.let { scheduleList ->
+            scheduleList.forEach { schedule ->
+                CardPast(schedule = schedule)
                 Spacer(modifier = Modifier.height(16.dp))
             }
+        }
 
 
 //            schedules.value?.let {
@@ -129,7 +135,7 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
 //                    schedule = it
 //                )
 //            }
-        }
+//        }
 //        CardPast(
 //            date = "Sab, 13 junho 2024",
 //            serviceName = "Corte e Barba",
@@ -144,8 +150,8 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel()) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSchedulingScreen() {
-    SchedulingScreen(navController = rememberNavController())
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSchedulingScreen() {
+//    SchedulingScreen(navController = rememberNavController())
+//}
