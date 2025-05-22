@@ -15,17 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
 import com.example.app_orderhub.util.theme.OrderHubBlue
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 @Composable
 fun CardService(
     modifier: Modifier = Modifier,
+    idEnterprise : String,
     service: Service,
-    professional: List<Professional>
+    professional: List<Professional>,
+    sharedClientViewModel : SharedClientViewModel,
+    navController: NavController,
 ) {
-    var showSchedule by remember { mutableStateOf(false) } // Estado do modal
+    var showSchedule by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
@@ -91,7 +96,7 @@ fun CardService(
             Spacer(modifier = Modifier.width(20.dp))
 
             Button(
-                onClick = { showSchedule = true }, // Abrir modal ao clicar
+                onClick = { showSchedule = true },
                 modifier = Modifier
                     .height(40.dp)
                     .width(120.dp),
@@ -109,7 +114,7 @@ fun CardService(
     }
 
     if (showSchedule) {
-        ScheduleModal(onDismiss = { showSchedule = false }, service, professional) // Exibir modal
+        ScheduleModal(onDismiss = { showSchedule = false }, service, professional, idEnterprise, sharedClientViewModel, navController) // Exibir modal
     }
 
     fun getNameProfessionals(professional: List<Professional>): String {

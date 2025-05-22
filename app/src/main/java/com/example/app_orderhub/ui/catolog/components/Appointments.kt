@@ -2,6 +2,7 @@ package com.example.app_orderhub.ui.catolog.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -19,27 +20,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
 fun Appointment(
-    backgroundApp: Color = Color.White
-//    borderApp: border: BorderStroke? = null
+    time : String = "",
+    isSelected: Boolean,
+    onClick: () -> Unit
 ) {
-    AppointmentPreview(backgroundApp)
+    AppointmentPreview(time, isSelected, onClick)
 }
 
-//@Preview
 @Composable
-fun AppointmentPreview(backgroundApp: Color) {
+fun AppointmentPreview(
+    time: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val backgroundColor = if (isSelected) OrderHubBlue else Color.White
+    val colorText = if (isSelected) Color.White else Color.Black
+
     Box(
         modifier = Modifier
             .border(1.dp, Color.Black, shape = RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(5.dp))
-            .width(60.dp)
-            .height(20.dp)
-            .background(backgroundApp)
+            .width(80.dp)
+            .height(40.dp)
+            .background(backgroundColor)
+            .clickable { onClick() }
             .drawBehind {
-                // Desenha a sombra abaixo do Box
                 drawRect(
                     brush = Brush.verticalGradient(
                         colors = listOf(Color.Gray.copy(alpha = 0.5f), Color.Transparent),
@@ -49,22 +58,13 @@ fun AppointmentPreview(backgroundApp: Color) {
                     topLeft = Offset(0f, size.height),
                     size = Size(size.width, 8.dp.toPx())
                 )
-            }
-//            .padding(bottom = 3.dp)
-        ,
+            },
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            modifier = Modifier
-//                .border(1.dp, Color.Black)
-//                .width(50.dp)
-//                .height(40.dp)
-            ,
-            text = "10:00",
-            style = TextStyle(
-                textAlign = TextAlign.Center
-            ),
-            color = Color.Black
+            text = time,
+            style = TextStyle(textAlign = TextAlign.Center),
+            color = colorText
         )
     }
 }
