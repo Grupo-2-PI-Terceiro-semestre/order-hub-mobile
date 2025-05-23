@@ -58,7 +58,7 @@ fun CardPast(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         IconProfile(
-                            title = "Barbearia NK",
+                            title = "${schedule.nomeEmpresa}",
                             fontSize = 16,
                             size = 40
                         )

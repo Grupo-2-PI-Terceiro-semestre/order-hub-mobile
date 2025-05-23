@@ -7,7 +7,7 @@ data class ScheduleResponse(
     val idAgendamento : Int,
     val nomeServico: String,
     val nomeEmpresa: String,
-    var dataHora: LocalDateTime,
+    var dataHora: String,
     var status: String,
     var atendente: String
 )

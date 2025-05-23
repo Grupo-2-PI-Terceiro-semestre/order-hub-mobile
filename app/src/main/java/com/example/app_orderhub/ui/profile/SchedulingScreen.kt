@@ -81,47 +81,6 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
 
         Spacer(modifier = Modifier.height(16.dp))
 
-
-//        CardCurrent(
-//            serviceName = "Corte e Barba",
-//            professionalName = "Com Kevin Silva",
-//            date = "Março",
-//            day = "15",
-//            time = "10:00",
-//            onCancel = {},
-//            onReschedule = {},
-//            modifier = Modifier.padding(horizontal = 20.dp)
-//        )
-
-        Text(
-            text = "Reservas Finalizadas",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-
-
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(ColorBackGroundDefault)
-//                .verticalScroll(rememberScrollState()),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-
-
-//        schedules.value?.forEach { schedule ->
-//            CardPast(schedule = schedule)
-//            Spacer(modifier = Modifier.height(16.dp))
-//        }
-
         schedulesState.value?.let { scheduleList ->
             scheduleList.forEach { schedule ->
                 CardPast(schedule = schedule)
@@ -129,29 +88,5 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
             }
         }
 
-
-//            schedules.value?.let {
-//                CardPast(
-//                    schedule = it
-//                )
-//            }
-//        }
-//        CardPast(
-//            date = "Sab, 13 junho 2024",
-//            serviceName = "Corte e Barba",
-//            professionalName = "Com Kevin Silva",
-//            status = "FINALIZADA",
-//            onReschedule = {},
-//            modifier = Modifier.padding(horizontal = 20.dp)
-//        )
-
-//        Spacer(modifier = Modifier.height(32.dp))
-
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewSchedulingScreen() {
-//    SchedulingScreen(navController = rememberNavController())
-//}
