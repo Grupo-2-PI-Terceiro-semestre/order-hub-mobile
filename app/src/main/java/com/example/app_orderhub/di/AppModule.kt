@@ -5,11 +5,13 @@ import com.example.app_orderhub.data.remote.CatalogApi
 import com.example.app_orderhub.data.remote.ClientApi
 import com.example.app_orderhub.data.remote.HomeApi
 import com.example.app_orderhub.data.remote.config.RetrofitClient
+import com.example.app_orderhub.data.remote.config.ScheduleApi
 import com.example.app_orderhub.data.remote.config.SearchApi
 import com.example.app_orderhub.data.repository.AuthRepository
 import com.example.app_orderhub.data.repository.CatalogRepository
 import com.example.app_orderhub.data.repository.ClientRepository
 import com.example.app_orderhub.data.repository.HomeRepository
+import com.example.app_orderhub.data.repository.ScheduleRepository
 import com.example.app_orderhub.data.repository.SearchRepository
 
 object AppModule {
@@ -39,6 +41,12 @@ object AppModule {
 
     // Cria a instância do Repository
     val searchRepository: SearchRepository = SearchRepository(searchApi)
+
+    // Cria a instância da API
+    private val scheduleApi: ScheduleApi = RetrofitClient.createApi(ScheduleApi::class.java)
+
+    // Cria a instância do Repository
+    val scheduleRepository: ScheduleRepository = ScheduleRepository(scheduleApi)
 
 
     // Cria a instância da API
