@@ -33,11 +33,6 @@ fun OptionProfile() {
             icon = painterResource(id = android.R.drawable.ic_dialog_info),
             title = "Ajuda e suporte"
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        OptionItem(
-            icon = painterResource(id = android.R.drawable.ic_dialog_alert),
-            title = "Sobre o aplicativo"
-        )
     }
 }
 

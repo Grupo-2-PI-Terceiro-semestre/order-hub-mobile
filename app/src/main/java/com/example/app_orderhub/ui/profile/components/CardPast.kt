@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.app_orderhub.domain.model.Schedule
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun CardPast(
@@ -30,7 +32,7 @@ fun CardPast(
             .padding(bottom = 8.dp)
     ) {
         Text(
-            text = "${schedule.dataHora}",
+            text = formatIsoDateTime(schedule.dataHora ?: ""),
             fontSize = 14.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,
@@ -101,4 +103,15 @@ fun CardPast(
 @Composable
 fun PreviewCardPast() {
     CardPast()
+}
+
+fun formatIsoDateTime(isoDateTime: String): String {
+    return try {
+        val inputFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+        val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm")
+        val dateTime = LocalDateTime.parse(isoDateTime, inputFormatter)
+        dateTime.format(outputFormatter)
+    } catch (e: Exception) {
+        isoDateTime // Fallback se erro
+    }
 }
