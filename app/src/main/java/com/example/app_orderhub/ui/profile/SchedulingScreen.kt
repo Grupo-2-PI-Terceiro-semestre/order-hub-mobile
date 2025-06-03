@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.app_orderhub.domain.model.Schedule
 import com.example.app_orderhub.navigation.MenuNavigation
 import com.example.app_orderhub.ui.catolog.components.ImageEnterprise
 import com.example.app_orderhub.ui.components.CardCurrent
@@ -25,21 +26,25 @@ import com.example.app_orderhub.ui.components.CardPast
 import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 @Composable
 fun SchedulingScreen(
-    navController: NavController
+    navController: NavController, sharedClientViewModel: SharedClientViewModel = viewModel()
 ) {
+    val client = sharedClientViewModel.client.collectAsState().value
+
     MenuNavigation(navController) {
-       ContentScheduling(idClient = "11" )
+       ContentScheduling(idClient = client?.idPessoa.toString())
     }
 }
 
 @Composable
-fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
-                      idClient: String) {
-
-    val schedulesState  = scheduleViewModel.schedules.collectAsState()
+fun ContentScheduling(
+    scheduleViewModel: ScheduleViewModel = viewModel(),
+    idClient: String
+) {
+    val schedulesState = scheduleViewModel.schedules.collectAsState()
 
     LaunchedEffect(Unit) {
         scheduleViewModel.onParamChanged(idClient)
@@ -48,10 +53,10 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
     LaunchedEffect(Unit) {
         scheduleViewModel.getSchedule(
             onSuccess = {
-                print("Sucesso ao carregar agendamentos")
+                println("Sucesso ao carregar agendamentos")
             },
             onError = {
-                print("Erro ao carregar agendamentos")
+                println("Erro ao carregar agendamentos")
             }
         )
     }
@@ -63,7 +68,6 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,11 +86,43 @@ fun ContentScheduling(scheduleViewModel: ScheduleViewModel = viewModel(),
         Spacer(modifier = Modifier.height(16.dp))
 
         schedulesState.value?.let { scheduleList ->
-            scheduleList.forEach { schedule ->
-                CardPast(schedule = schedule)
-                Spacer(modifier = Modifier.height(16.dp))
+            val agendamentosAtivos = scheduleList.filter {
+                it.status == "PENDENTE" || it.status == "AGENDADO"
+            }
+
+            val agendamentosFinalizados = scheduleList.filter {
+                it.status == "REALIZADO" || it.status == "CANCELADO"
+            }
+
+            if (agendamentosAtivos.isNotEmpty()) {
+                Text(
+                    text = "Agendamentos Ativos",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                agendamentosAtivos.forEach { schedule ->
+                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel)
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+
+            if (agendamentosFinalizados.isNotEmpty()) {
+                Text(
+                    text = "Histórico de Agendamentos",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                agendamentosFinalizados.forEach { schedule ->
+                    CardPast(schedule = schedule)
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
             }
         }
-
     }
 }

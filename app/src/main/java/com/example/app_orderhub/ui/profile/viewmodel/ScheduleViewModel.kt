@@ -39,10 +39,39 @@ class ScheduleViewModel : ViewModel() {
             _errorMessage.value = null
 
             try {
-                val response = scheduleRepository.getSchedule("11")
+                val response = scheduleRepository.getSchedule(_param.value.toString())
                 val schedules = response.toSchedules()
                 _schedule.value = schedules
                 onSuccess(schedules)
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                onError(e.message ?: "Erro desconhecido")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun deleteSchedule(scheduleId: String,
+                       onSuccess: () -> Unit,
+                       onError: (String) -> Unit) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _errorMessage.value = null
+
+            try {
+                val response = scheduleRepository.deleteSchedule(scheduleId)
+
+                getSchedule(
+                    onSuccess = { onSuccess() },
+                    onError = { onError(it) }
+                )
+//                val schedules = response.toSchedules()
+//                _schedule.value = schedules
+////                onSuccess()
+//                if (onSuccess != null) {
+//                    getSchedule(schedules)
+//                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 onError(e.message ?: "Erro desconhecido")

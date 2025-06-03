@@ -11,7 +11,6 @@ data class ScheduleResponse(
     var status: String,
     var atendente: String
 )
-
 fun List<ScheduleResponse>.toSchedules(): List<Schedule> {
     return this.map { it.toSchedules() }
 }

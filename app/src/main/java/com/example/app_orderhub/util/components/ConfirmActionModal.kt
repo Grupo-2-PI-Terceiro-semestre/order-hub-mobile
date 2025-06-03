@@ -46,8 +46,8 @@ fun ConfirmActionModal(
     onCancel: () -> Unit
 ) {
     val isConfirmType = type == "Confirm"
-    val primaryButtonText = if (isConfirmType) "Ver Agendamentos" else "Cancelar"
-    val primaryButtonColor = if (isConfirmType) Color(0xFF007BFF) else Color(0xFFFF3B30)
+    val primaryButtonText = if (isConfirmType) "Ver Agendamentos" else "Sim"
+    val primaryButtonColor = if (isConfirmType) Color(0xFF007BFF) else Color(0xFF4CAF50)
     val titleColor = if (isConfirmType) Color(0xFF1B873F) else Color.Black
 
     AlertDialog(

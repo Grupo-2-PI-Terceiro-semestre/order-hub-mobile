@@ -48,9 +48,9 @@ object AppModule {
     // Cria a instância do Repository
     val scheduleRepository: ScheduleRepository = ScheduleRepository(scheduleApi)
 
-
     // Cria a instância da API
     private val clientApi: ClientApi = RetrofitClient.createApi(ClientApi::class.java)
 
+    // Cria a instância do Repository
     val clientRepository: ClientRepository = ClientRepository(clientApi)
 }
