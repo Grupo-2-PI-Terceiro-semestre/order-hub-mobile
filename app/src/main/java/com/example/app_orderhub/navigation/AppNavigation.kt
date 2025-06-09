@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.app_orderhub.ui.auth.screens.ConfirmRecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.screens.LoginScreen
+import com.example.app_orderhub.ui.auth.screens.MobileTokenScreen
 import com.example.app_orderhub.ui.auth.screens.RecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.screens.RegisterScreen
+import com.example.app_orderhub.ui.auth.screens.ResetPasswordScreen
 import com.example.app_orderhub.ui.catolog.CatalogScreen
 import com.example.app_orderhub.ui.home.HomeScreen
 import com.example.app_orderhub.ui.map.MapScreen
@@ -53,5 +55,7 @@ fun AppNavigation(
             val idClient = backStackEntry.arguments?.getString("idClient") ?: ""
             EditProfileScreen(navController, idClient)
         }
+        composable("token") { MobileTokenScreen(navController) }
+        composable("reset") { ResetPasswordScreen(navController) }
     }
 }
