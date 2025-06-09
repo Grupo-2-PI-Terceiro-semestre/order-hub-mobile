@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.app_orderhub.domain.model.Schedule
+import com.example.app_orderhub.data.model.schedule.ScheduleDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,7 +23,7 @@ fun CardPast(
 //    status: String = "FINALIZADA",
 //    imagemUrl: String = "https://www.barbeariank.com.br/wp-content/uploads/2021/06/Logo-Barbearia-NK-1.png",
     onReschedule: () -> Unit = {},
-    schedule: Schedule = Schedule(),
+    schedule: ScheduleDTO = ScheduleDTO(),
     modifier: Modifier = Modifier
 ) {
     Column(

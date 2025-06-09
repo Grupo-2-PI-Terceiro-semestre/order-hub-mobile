@@ -8,7 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ScheduleApi {
-    @GET("agendamentos/cliente/{idCliente}")
+    @GET("agendamentos/app/cliente/{idCliente}")
     suspend fun getSchedule(@Path("idCliente") idCliente: String): List<ScheduleResponse>
 
     @PUT("agendamentos/cancelaAgendamento/{idAgendamento}")

@@ -2,11 +2,9 @@ package com.example.app_orderhub.ui.search.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app_orderhub.data.model.home.toEnterprises
+import com.example.app_orderhub.data.model.schedule.ScheduleDTO
 import com.example.app_orderhub.data.model.schedule.toSchedules
 import com.example.app_orderhub.di.AppModule
-import com.example.app_orderhub.domain.model.Enterprise
-import com.example.app_orderhub.domain.model.Schedule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,8 +15,8 @@ class ScheduleViewModel : ViewModel() {
     private val _param = MutableStateFlow<String?>("")
     val param: StateFlow<String?> = _param
 
-    private val _schedule = MutableStateFlow<List<Schedule>?>(null)
-    val schedules: StateFlow<List<Schedule>?> = _schedule
+    private val _schedule = MutableStateFlow<List<ScheduleDTO>?>(null)
+    val schedules: StateFlow<List<ScheduleDTO>?> = _schedule
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -33,7 +31,7 @@ class ScheduleViewModel : ViewModel() {
         _param.value = newParam
     }
 
-    fun getSchedule(onSuccess: (List<Schedule>) -> Unit, onError: (String) -> Unit) {
+    fun getSchedule(onSuccess: (List<ScheduleDTO>) -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             _isLoading.value = true
             _errorMessage.value = null

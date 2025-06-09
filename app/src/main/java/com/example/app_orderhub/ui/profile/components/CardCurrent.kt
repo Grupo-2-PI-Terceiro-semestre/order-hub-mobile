@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.app_orderhub.R
-import com.example.app_orderhub.domain.model.Schedule
+import com.example.app_orderhub.data.model.schedule.ScheduleDTO
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
 import java.time.LocalDateTime
@@ -31,7 +31,7 @@ fun CardCurrent(
     onCancel: () -> Unit = {},
     onReschedule: () -> Unit = {},
     modifier: Modifier = Modifier,
-    schedule: Schedule = Schedule(),
+    schedule: ScheduleDTO = ScheduleDTO(),
 //    idAgendamento: String,
     scheduleViewModel: ScheduleViewModel
 ) {
