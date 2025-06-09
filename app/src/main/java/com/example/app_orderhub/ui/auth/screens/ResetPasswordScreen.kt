@@ -1,11 +1,14 @@
 package com.example.app_orderhub.ui.auth.screens
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.app_orderhub.services.rememberImeState
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
@@ -28,63 +32,78 @@ import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun PasswordRecoveryScreen(navController: NavController) {
+fun ResetPasswordScreen(navController: NavController) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
 
-    Column(
+    val imeState = rememberImeState()
+    var scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.animateScrollTo(scrollState.maxValue, tween(300))
+        }
+    }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackGroundDefault),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(ColorBackGroundDefault)
     ) {
-        ImageTop()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ImageTop()
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        TitleSubtitle(
-            title = "Recuperação de senha",
-            subtitle = "Crie sua nova senha e volte a navegar em nossa plataforma :)",
-            fontWeight = FontWeight.Bold,
-            fontSizeTitle = 22,
-            widthPercentage = 0.9f,
-            textAlign = TextAlign.Center
-        )
+            TitleSubtitle(
+                title = "Recuperação de senha",
+                subtitle = "Crie sua nova senha e volte a navegar em nossa plataforma :)",
+                fontWeight = FontWeight.Bold,
+                fontSizeTitle = 22,
+                widthPercentage = 0.9f,
+                textAlign = TextAlign.Center
+            )
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-        PasswordInputField(
-            label = "Senha",
-            value = password,
-            onValueChange = { password = it },
-            isVisible = passwordVisible,
-            onToggleVisibility = { passwordVisible = !passwordVisible }
-        )
+            PasswordInputField(
+                label = "Senha",
+                value = password,
+                onValueChange = { password = it },
+                isVisible = passwordVisible,
+                onToggleVisibility = { passwordVisible = !passwordVisible }
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        PasswordInputField(
-            label = "Reescreva a senha",
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            isVisible = confirmPasswordVisible,
-            onToggleVisibility = { confirmPasswordVisible = !confirmPasswordVisible }
-        )
+            PasswordInputField(
+                label = "Confirmar Senha",
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                isVisible = confirmPasswordVisible,
+                onToggleVisibility = { confirmPasswordVisible = !confirmPasswordVisible }
+            )
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-        ButtonAuth(
-            text = "Continuar",
-            borderRadius = 10,
-            borderColor = OrderHubBlue,
-            onClick = {
-                if (password == confirmPassword && password.length >= 6) {
-                    navController.navigate("login")
+            ButtonAuth(
+                text = "Continuar",
+                borderRadius = 10,
+                borderColor = OrderHubBlue,
+                onClick = {
+                    if (password == confirmPassword && password.length >= 6) {
+                        navController.navigate("login")
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
@@ -101,7 +120,7 @@ fun PasswordInputField(
             .width(300.dp)
             .background(Color.White, shape = RoundedCornerShape(12.dp))
             .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -144,7 +163,7 @@ fun PasswordInputField(
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordRecoveryScreenPreview() {
+private fun ResetPasswordScreenPreview() {
     val navController = rememberNavController()
-    PasswordRecoveryScreen(navController = navController)
+    ResetPasswordScreen(navController = navController)
 }
