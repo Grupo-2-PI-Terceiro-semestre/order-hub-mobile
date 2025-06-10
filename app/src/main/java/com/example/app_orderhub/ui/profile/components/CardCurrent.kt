@@ -18,10 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.data.model.schedule.ScheduleDTO
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -33,8 +35,11 @@ fun CardCurrent(
     modifier: Modifier = Modifier,
     schedule: ScheduleDTO = ScheduleDTO(),
 //    idAgendamento: String,
-    scheduleViewModel: ScheduleViewModel
-) {
+    scheduleViewModel: ScheduleViewModel,
+    sharedClientViewModel : SharedClientViewModel,
+    navController: NavController
+
+    ) {
 
     val context = androidx.compose.ui.platform.LocalContext.current
     val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -50,6 +55,8 @@ fun CardCurrent(
 
     var showModal by remember { mutableStateOf(false) }
     val warningIcon = painterResource(id = R.drawable.canceled)
+
+    var showSchedule by remember { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -122,7 +129,7 @@ fun CardCurrent(
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    onClick = onReschedule,
+                    onClick = { showSchedule = true },
                     colors = ButtonDefaults.buttonColors(Color.White),
                     shape = RoundedCornerShape(8.dp),
                     border = BorderStroke(1.dp, Color.Black),
@@ -156,13 +163,21 @@ fun CardCurrent(
                 )
 
             }
+
+            if (showSchedule) {
+                val context = LocalContext.current
+
+                val service = Service(
+                    idServico = 0,
+                    nomeServico = schedule.nomeServico ?: "",
+                    duracaoServico = "",
+                    descricaoServico = "",
+                    precoServico = 0.0,
+                    proficional = listOf(schedule.atendente ?: "")
+                )
+
+                ScheduleModal(onDismiss = { showSchedule = false },service, schedule.atendente, schedule.nomeEmpresa, sharedClientViewModel, navController)
+            }
         }
     }
 }
-
-
-//@Preview
-//@Composable
-//fun PreviewAppointmentCard() {
-//    CardCurrent(modifier = Modifier.padding(horizontal = 16.dp)) // Aplicando padding no preview também
-//}
