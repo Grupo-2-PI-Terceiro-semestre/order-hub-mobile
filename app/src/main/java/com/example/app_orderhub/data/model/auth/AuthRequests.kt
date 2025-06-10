@@ -12,3 +12,16 @@ data class RegisterRequest(
     val senha: String
 )
 
+data class RecoverPasswordRequest(
+    val email: String
+)
+
+data class ValidateTokenRequest(
+    val token: String
+)
+
+data class ResetPasswordRequest(
+    val token: String,
+    val novaSenha: String
+)
+

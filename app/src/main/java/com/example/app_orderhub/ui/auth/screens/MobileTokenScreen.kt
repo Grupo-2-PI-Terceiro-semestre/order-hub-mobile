@@ -28,18 +28,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.services.rememberImeState
 import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
+import com.example.app_orderhub.ui.auth.viewmodel.AuthViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun MobileTokenScreen(navController: NavController) {
-    var code by remember { mutableStateOf("") }
+fun MobileTokenScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+    val token = authViewModel.token.collectAsState()
+    val isLoading = authViewModel.isLoading.collectAsState()
+    val errorMessage = authViewModel.errorMessage.collectAsState().value
 
     val scrollState = rememberScrollState()
     val imeState = rememberImeState()
@@ -99,15 +103,15 @@ fun MobileTokenScreen(navController: NavController) {
                     .wrapContentSize(Alignment.Center)
             ) {
                 StepIndicator(
-                    currentStep = code.length,
-                    digits = code,
+                    currentStep = token.value.length,
+                    digits = token.value,
                 )
 
                 BasicTextField(
-                    value = code,
+                    value = token.value,
                     onValueChange = {
                         if (it.length <= 4 && it.all { c -> c.isDigit() }) {
-                            code = it
+                            authViewModel.onTokenChanged(it)
                         }
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.NumberPassword),
@@ -125,15 +129,28 @@ fun MobileTokenScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            errorMessage?.let {
+                Text(text = it, color = Color.Red)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            Spacer(modifier =  Modifier.height(16.dp))
+
+
             ButtonAuth(
                 text = "OK",
                 borderRadius = 10,
                 borderColor = OrderHubBlue,
                 onClick = {
-                    if (code.length == 4) {
-                        navController.popBackStack("confirmRecover", inclusive = true)
-                        navController.popBackStack("recover", inclusive = true)
-                        navController.navigate("reset")
+                    if (token.value.length == 4 && !isLoading.value) {
+                        authViewModel.validate(
+                            onSuccess = {
+                                navController.popBackStack("confirmRecover", inclusive = true)
+                                navController.popBackStack("recover", inclusive = true)
+                                navController.navigate("reset/${token.value}")
+                            },
+                            onError = { /* Pode exibir erro na tela se necessário */ }
+                        )
                     }
                 }
             )
@@ -152,7 +169,11 @@ fun MobileTokenScreen(navController: NavController) {
                 borderRadius = 10,
                 borderColor = OrderHubBlue,
                 backgroundColor = Color.White,
-                onClick = {}
+                onClick = {
+                    navController.navigate("recover") {
+                        popUpTo("token") { inclusive = true }
+                    }
+                }
             )
         }
     }
