@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -42,14 +43,18 @@ import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
 import com.example.app_orderhub.util.theme.OrderHubBlue
 import com.example.app_orderhub.viewmodel.SharedClientViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleModal(
     onDismiss: () -> Unit,
+    idEnterprise: String,
+    idAgendamento: Int? = null,
     service: Service,
     professional: List<Professional>,
-    idEnterprise: String,
+    dataHora: String? = null,
     sharedClientViewModel : SharedClientViewModel,
     navController: NavController
 ) {
@@ -68,7 +73,7 @@ fun ScheduleModal(
                 .background(Color.White),
             verticalArrangement = Arrangement.Center
         ) {
-            SchedulePreview(service, professional, idEnterprise, idClient, onDismiss, navController)
+            SchedulePreview(service, professional, idEnterprise, idClient, dataHora, onDismiss, navController)
         }
     }
 }
@@ -81,6 +86,7 @@ fun SchedulePreview(
     professional: List<Professional>,
     idEnterprise: String,
     idClient: Int?,
+    dataHora: String?,
     onDismiss: () -> Unit,
     navController: NavController,
 ) {
@@ -93,9 +99,25 @@ fun SchedulePreview(
         mutableStateOf(AgendamentoSelecionado())
     }
 
+    LaunchedEffect(Unit) {
+        dataHora?.let {
+            val localDateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val dateOnly = localDateTime.toLocalDate().toString() // Resultado: "2025-06-12"
+
+            selectedDate = dateOnly
+            agendamentoSelecionado.value = agendamentoSelecionado.value.copy(data = dateOnly)
+        }
+    }
 
     val context = LocalContext.current
     val viewModel: CatalogViewModel = viewModel()
+
+    val localDateFromDataHora = remember(dataHora) {
+        dataHora?.let {
+            val localDateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            localDateTime.toLocalDate().toString() // "2025-06-12"
+        }
+    }
 
     LaunchedEffect(selectedItem, selectedDate) {
         val professionalId = selectedItem?.idUsuario
@@ -134,8 +156,9 @@ fun SchedulePreview(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Calendar { selected ->
+        Calendar(initialDate = localDateFromDataHora) { selected ->
             selectedDate = selected
+
             agendamentoSelecionado.value = agendamentoSelecionado.value.copy(data = selected)
         }
 
