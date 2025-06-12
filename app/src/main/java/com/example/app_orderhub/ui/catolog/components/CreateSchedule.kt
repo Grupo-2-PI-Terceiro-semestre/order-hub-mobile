@@ -51,7 +51,8 @@ import java.time.format.DateTimeFormatter
 fun ScheduleModal(
     onDismiss: () -> Unit,
     idEnterprise: String,
-    idAgendamento: Int? = null,
+    idAgendamento: String,
+    idClient: String?,
     service: Service,
     professional: List<Professional>,
     dataHora: String? = null,
@@ -59,7 +60,7 @@ fun ScheduleModal(
     navController: NavController
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
-    val idClient = sharedClientViewModel.client.collectAsState().value?.idPessoa
+//    val idClient = sharedClientViewModel.client.collectAsState().value?.idPessoa
 
     ModalBottomSheet(
         containerColor = Color.White,
@@ -73,7 +74,7 @@ fun ScheduleModal(
                 .background(Color.White),
             verticalArrangement = Arrangement.Center
         ) {
-            SchedulePreview(service, professional, idEnterprise, idClient, dataHora, onDismiss, navController)
+            SchedulePreview(service, professional, idEnterprise, idClient, idAgendamento, dataHora, onDismiss, navController)
         }
     }
 }
@@ -85,7 +86,8 @@ fun SchedulePreview(
     service: Service,
     professional: List<Professional>,
     idEnterprise: String,
-    idClient: Int?,
+    idClient: String?,
+    idAgendamento: String,
     dataHora: String?,
     onDismiss: () -> Unit,
     navController: NavController,
@@ -214,7 +216,8 @@ fun SchedulePreview(
                 width = 1.0f,
                 onClick = {
                     viewModel.createSchedule(
-                        idClient = idClient ?: 0,
+                        idAgendamento = idAgendamento,
+                        idClient = idClient ?: "",
                         idService = service.idServico.toString(),
                         idProfessional = selectedItem?.idUsuario.toString(),
                         date = agendamentoSelecionado.value.data.toString(),

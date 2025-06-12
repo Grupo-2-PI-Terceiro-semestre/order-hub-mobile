@@ -28,4 +28,9 @@ class CatalogRepository(private val catalogApi: CatalogApi) {
         val response = catalogApi.createSchedule(request)
         return response.isSuccessful
     }
+
+    suspend fun updateSchedule(request: ScheduleRequest): Boolean {
+        val response = catalogApi.updateSchedule(request)
+        return response.isSuccessful
+    }
 }

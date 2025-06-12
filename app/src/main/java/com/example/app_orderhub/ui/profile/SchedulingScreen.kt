@@ -105,7 +105,7 @@ fun ContentScheduling(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 agendamentosAtivos.forEach { schedule ->
-                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel, sharedClientViewModel = SharedClientViewModel(), navController = navController )
+                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel, sharedClientViewModel = SharedClientViewModel(), navController = navController, idClient = idClient )
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

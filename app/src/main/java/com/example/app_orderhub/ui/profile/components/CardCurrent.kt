@@ -39,7 +39,8 @@ fun CardCurrent(
 //    idAgendamento: String,
     scheduleViewModel: ScheduleViewModel,
     sharedClientViewModel : SharedClientViewModel,
-    navController: NavController
+    navController: NavController,
+    idClient: String
 
     ) {
 
@@ -181,7 +182,8 @@ fun CardCurrent(
                 ScheduleModal(
                     onDismiss = { showSchedule = false },
                     schedule.idEmpresa.toString(),
-                    schedule.idAgendamento,
+                    schedule.idAgendamento.toString(),
+                    idClient,
                     service,
                     schedule.profissionais,
                     schedule.dataHora,
