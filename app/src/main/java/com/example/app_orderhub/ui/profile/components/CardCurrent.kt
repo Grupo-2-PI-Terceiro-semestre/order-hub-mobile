@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.data.model.schedule.ScheduleDTO
+import com.example.app_orderhub.domain.model.Service
+import com.example.app_orderhub.ui.catolog.components.ScheduleModal
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
 import com.example.app_orderhub.viewmodel.SharedClientViewModel
@@ -37,7 +39,8 @@ fun CardCurrent(
 //    idAgendamento: String,
     scheduleViewModel: ScheduleViewModel,
     sharedClientViewModel : SharedClientViewModel,
-    navController: NavController
+    navController: NavController,
+    idClient: String
 
     ) {
 
@@ -168,7 +171,7 @@ fun CardCurrent(
                 val context = LocalContext.current
 
                 val service = Service(
-                    idServico = 0,
+                    idServico = schedule.idServico,
                     nomeServico = schedule.nomeServico ?: "",
                     duracaoServico = "",
                     descricaoServico = "",
@@ -176,7 +179,17 @@ fun CardCurrent(
                     proficional = listOf(schedule.atendente ?: "")
                 )
 
-                ScheduleModal(onDismiss = { showSchedule = false },service, schedule.atendente, schedule.nomeEmpresa, sharedClientViewModel, navController)
+                ScheduleModal(
+                    onDismiss = { showSchedule = false },
+                    schedule.idEmpresa.toString(),
+                    schedule.idAgendamento.toString(),
+                    idClient,
+                    service,
+                    schedule.profissionais,
+                    schedule.dataHora,
+                    sharedClientViewModel,
+                    navController
+                )
             }
         }
     }
