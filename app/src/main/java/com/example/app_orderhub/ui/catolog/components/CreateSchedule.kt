@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -43,24 +42,19 @@ import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
 import com.example.app_orderhub.util.theme.OrderHubBlue
 import com.example.app_orderhub.viewmodel.SharedClientViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleModal(
     onDismiss: () -> Unit,
-    idEnterprise: String,
-    idAgendamento: String,
-    idClient: String?,
     service: Service,
     professional: List<Professional>,
-    dataHora: String? = null,
+    idEnterprise: String,
     sharedClientViewModel : SharedClientViewModel,
     navController: NavController
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
-//    val idClient = sharedClientViewModel.client.collectAsState().value?.idPessoa
+    val idClient = sharedClientViewModel.client.collectAsState().value?.idPessoa
 
     ModalBottomSheet(
         containerColor = Color.White,
@@ -74,7 +68,7 @@ fun ScheduleModal(
                 .background(Color.White),
             verticalArrangement = Arrangement.Center
         ) {
-            SchedulePreview(service, professional, idEnterprise, idClient, idAgendamento, dataHora, onDismiss, navController)
+            SchedulePreview(service, professional, idEnterprise, idClient, onDismiss, navController)
         }
     }
 }
@@ -86,9 +80,7 @@ fun SchedulePreview(
     service: Service,
     professional: List<Professional>,
     idEnterprise: String,
-    idClient: String?,
-    idAgendamento: String,
-    dataHora: String?,
+    idClient: Int?,
     onDismiss: () -> Unit,
     navController: NavController,
 ) {
@@ -101,25 +93,9 @@ fun SchedulePreview(
         mutableStateOf(AgendamentoSelecionado())
     }
 
-    LaunchedEffect(Unit) {
-        dataHora?.let {
-            val localDateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            val dateOnly = localDateTime.toLocalDate().toString() // Resultado: "2025-06-12"
-
-            selectedDate = dateOnly
-            agendamentoSelecionado.value = agendamentoSelecionado.value.copy(data = dateOnly)
-        }
-    }
 
     val context = LocalContext.current
     val viewModel: CatalogViewModel = viewModel()
-
-    val localDateFromDataHora = remember(dataHora) {
-        dataHora?.let {
-            val localDateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            localDateTime.toLocalDate().toString() // "2025-06-12"
-        }
-    }
 
     LaunchedEffect(selectedItem, selectedDate) {
         val professionalId = selectedItem?.idUsuario
@@ -158,9 +134,8 @@ fun SchedulePreview(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Calendar(initialDate = localDateFromDataHora) { selected ->
+        Calendar { selected ->
             selectedDate = selected
-
             agendamentoSelecionado.value = agendamentoSelecionado.value.copy(data = selected)
         }
 
@@ -216,8 +191,7 @@ fun SchedulePreview(
                 width = 1.0f,
                 onClick = {
                     viewModel.createSchedule(
-                        idAgendamento = idAgendamento,
-                        idClient = idClient ?: "",
+                        idClient = idClient ?: 0,
                         idService = service.idServico.toString(),
                         idProfessional = selectedItem?.idUsuario.toString(),
                         date = agendamentoSelecionado.value.data.toString(),
