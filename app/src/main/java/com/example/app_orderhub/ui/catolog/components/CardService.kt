@@ -120,14 +120,14 @@ fun CardService(
     if (showSchedule) {
         ScheduleModal(
             onDismiss = { showSchedule = false },
-            idEnterprise,
-            service.idServico.toString(),
-            idClient,
-            service,
-            professional,
+            idEnterprise = idEnterprise,
+            idAgendamento = null,
+            idClient = idClient,
+            service =  service,
+            professional = professional,
             dataHora = null,
-            sharedClientViewModel,
-            navController
+            sharedClientViewModel = sharedClientViewModel,
+            navController = navController
         )
     }
 

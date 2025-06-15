@@ -51,7 +51,7 @@ import java.time.format.DateTimeFormatter
 fun ScheduleModal(
     onDismiss: () -> Unit,
     idEnterprise: String,
-    idAgendamento: String,
+    idAgendamento: String?,
     idClient: String?,
     service: Service,
     professional: List<Professional>,
@@ -87,7 +87,7 @@ fun SchedulePreview(
     professional: List<Professional>,
     idEnterprise: String,
     idClient: String?,
-    idAgendamento: String,
+    idAgendamento: String?,
     dataHora: String?,
     onDismiss: () -> Unit,
     navController: NavController,
@@ -216,7 +216,7 @@ fun SchedulePreview(
                 width = 1.0f,
                 onClick = {
                     viewModel.createSchedule(
-                        idAgendamento = idAgendamento,
+                        idAgendamento = idAgendamento?: "",
                         idClient = idClient ?: "",
                         idService = service.idServico.toString(),
                         idProfessional = selectedItem?.idUsuario.toString(),

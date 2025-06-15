@@ -73,6 +73,7 @@ fun CardPast(
                     ) {
                         IconProfile(
                             title = "${schedule.nomeEmpresa}",
+                            imageRes = "${schedule.urlImage}",
                             fontSize = 16,
                             size = 40
                         )
@@ -99,7 +100,9 @@ fun CardPast(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Button(
-                    onClick = { showModal = true },
+                    onClick = {
+                        navController.navigate("catalog/${schedule.idEmpresa}")
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2185A8))
@@ -107,10 +110,6 @@ fun CardPast(
                     Text(text = "Reagendar", color = Color.White, fontWeight = FontWeight.Bold)
                 }
             }
-        }
-
-        if (showModal) {
-            CatalogScreen(schedule.idEmpresa.toString(), navController = navController, sharedClientViewModel = SharedClientViewModel())
         }
     }
 }

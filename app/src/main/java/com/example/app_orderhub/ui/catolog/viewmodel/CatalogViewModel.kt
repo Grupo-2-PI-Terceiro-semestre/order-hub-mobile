@@ -96,7 +96,7 @@ class CatalogViewModel : ViewModel() {
 
 
                 val request = ScheduleRequest(
-                    idAgendamento = idAgendamento.toInt(),
+                    idAgendamento = idAgendamento,
                     idCliente = idClient.toInt(),
                     idServico = idService.toInt(),
                     idProfissional = idProfessional.toInt(),
@@ -104,11 +104,11 @@ class CatalogViewModel : ViewModel() {
                     statusAgendamento = "PENDENTE"
                 )
 
-                if (request.idAgendamento == null) {
+                if (request.idAgendamento == "") {
                     catalogRepository.createSchedule(request)
                 } else {
                     val request = ScheduleRequest(
-                        idAgendamento = idAgendamento.toInt(),
+                        idAgendamento = idAgendamento,
                         idCliente = idClient.toInt(),
                         idServico = idService.toInt(),
                         idProfissional = idProfessional.toInt(),
