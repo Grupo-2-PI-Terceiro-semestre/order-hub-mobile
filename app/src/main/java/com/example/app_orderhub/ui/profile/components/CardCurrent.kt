@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_orderhub.R
 import com.example.app_orderhub.data.model.schedule.ScheduleDTO
+import com.example.app_orderhub.domain.model.Service
+import com.example.app_orderhub.ui.catolog.components.ScheduleModal
 import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.components.ConfirmActionModal
 import com.example.app_orderhub.viewmodel.SharedClientViewModel
@@ -37,9 +39,10 @@ fun CardCurrent(
 //    idAgendamento: String,
     scheduleViewModel: ScheduleViewModel,
     sharedClientViewModel : SharedClientViewModel,
-    navController: NavController
+    navController: NavController,
+    idClient: String
 
-    ) {
+) {
 
     val context = androidx.compose.ui.platform.LocalContext.current
     val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -103,7 +106,8 @@ fun CardCurrent(
             }
 
             IconProfile(
-                title = "Barbearia NK",
+                title = "${schedule.nomeEmpresa}",
+                imageRes = "${schedule.urlImage}",
                 textColor = Color.Black,
                 fontSize = 16,
                 size = 40
@@ -168,15 +172,27 @@ fun CardCurrent(
                 val context = LocalContext.current
 
                 val service = Service(
-                    idServico = 0,
+                    idServico = schedule.idServico,
                     nomeServico = schedule.nomeServico ?: "",
                     duracaoServico = "",
                     descricaoServico = "",
-                    precoServico = 0.0,
+                    precoServico = schedule.valorServico.toDouble(),
                     proficional = listOf(schedule.atendente ?: "")
                 )
+                val professional = schedule.profissionais
+                    .filter { it.nomePessoa == schedule.atendente }
 
-                ScheduleModal(onDismiss = { showSchedule = false },service, schedule.atendente, schedule.nomeEmpresa, sharedClientViewModel, navController)
+                ScheduleModal(
+                    onDismiss = { showSchedule = false },
+                    schedule.idEmpresa.toString(),
+                    schedule.idAgendamento.toString(),
+                    idClient,
+                    service,
+                    professional = professional,
+                    schedule.dataHora,
+                    sharedClientViewModel,
+                    navController
+                )
             }
         }
     }
