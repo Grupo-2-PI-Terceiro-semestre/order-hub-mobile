@@ -95,28 +95,14 @@ class CatalogViewModel : ViewModel() {
 
 
                 val request = ScheduleRequest(
-                    idAgendamento = idAgendamento,
-                    idCliente = idClient.toInt(),
+                    idCliente = idClient,
                     idServico = idService.toInt(),
                     idProfissional = idProfessional.toInt(),
                     dataAgendamento = scheduleFormatted,
                     statusAgendamento = "PENDENTE"
                 )
 
-
-                if (request.idAgendamento == "") {
-                    catalogRepository.createSchedule(request)
-                } else {
-                    val request = ScheduleRequest(
-                        idAgendamento = idAgendamento,
-                        idCliente = idClient.toInt(),
-                        idServico = idService.toInt(),
-                        idProfissional = idProfessional.toInt(),
-                        dataAgendamento = scheduleFormatted
-                    )
-
-                    catalogRepository.updateSchedule(request)
-                }
+                catalogRepository.createSchedule(request)
                 onSuccess()
             } catch (e: Exception) {
                 onError(e.message ?: "Erro desconhecido")
