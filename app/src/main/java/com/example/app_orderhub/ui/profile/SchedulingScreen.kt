@@ -35,14 +35,15 @@ fun SchedulingScreen(
     val client = sharedClientViewModel.client.collectAsState().value
 
     MenuNavigation(navController) {
-       ContentScheduling(idClient = client?.idPessoa.toString())
+        ContentScheduling(idClient = client?.idPessoa.toString(), navController = navController)
     }
 }
 
 @Composable
 fun ContentScheduling(
     scheduleViewModel: ScheduleViewModel = viewModel(),
-    idClient: String
+    idClient: String,
+    navController: NavController
 ) {
     val schedulesState = scheduleViewModel.schedules.collectAsState()
 
@@ -104,7 +105,7 @@ fun ContentScheduling(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 agendamentosAtivos.forEach { schedule ->
-                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel)
+                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel, sharedClientViewModel = SharedClientViewModel(), navController = navController, idClient = idClient )
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
@@ -119,7 +120,7 @@ fun ContentScheduling(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 agendamentosFinalizados.forEach { schedule ->
-                    CardPast(schedule = schedule)
+                    CardPast(schedule = schedule, navController = navController)
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
