@@ -114,7 +114,17 @@ fun CardService(
     }
 
     if (showSchedule) {
-        ScheduleModal(onDismiss = { showSchedule = false }, service, professional, idEnterprise, sharedClientViewModel, navController) // Exibir modal
+        ScheduleModal(
+            onDismiss = { showSchedule = false },
+            idEnterprise = idEnterprise,
+            idAgendamento = null,
+            idClient = idClient,
+            service =  service,
+            professional = professional,
+            dataHora = null,
+            sharedClientViewModel = sharedClientViewModel,
+            navController = navController
+        )
     }
 
     fun getNameProfessionals(professional: List<Professional>): String {
