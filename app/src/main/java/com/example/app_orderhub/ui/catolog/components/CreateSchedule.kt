@@ -47,9 +47,6 @@ import com.example.app_orderhub.viewmodel.SharedClientViewModel
 @Composable
 fun ScheduleModal(
     onDismiss: () -> Unit,
-    idEnterprise: String,
-    idAgendamento: String?,
-    idClient: String?,
     service: Service,
     professional: List<Professional>,
     idEnterprise: String,
@@ -83,9 +80,6 @@ fun SchedulePreview(
     service: Service,
     professional: List<Professional>,
     idEnterprise: String,
-    idClient: String?,
-    idAgendamento: String?,
-    dataHora: String?,
     idClient: Int?,
     onDismiss: () -> Unit,
     navController: NavController,
@@ -197,8 +191,7 @@ fun SchedulePreview(
                 width = 1.0f,
                 onClick = {
                     viewModel.createSchedule(
-                        idAgendamento = idAgendamento?: "",
-                        idClient = idClient ?: "",
+                        idClient = idClient ?: 0,
                         idService = service.idServico.toString(),
                         idProfessional = selectedItem?.idUsuario.toString(),
                         date = agendamentoSelecionado.value.data.toString(),

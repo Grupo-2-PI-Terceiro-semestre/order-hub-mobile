@@ -6,13 +6,10 @@ import java.time.LocalDateTime
 data class ScheduleResponse(
     val idAgendamento: Int,
     val nomeServico: String,
-    val idServico: Int,
-    val valorServico: String,
     val nomeEmpresa: String,
     val dataHora: String,
     val status: String,
     val atendente: String,
-    val urlImage : String? = null,
     val proficionaisDaEmpresa: List<ProfessionalResponse>
 )
 fun List<ScheduleResponse>.toSchedules(): List<ScheduleDTO> {
@@ -23,13 +20,10 @@ fun ScheduleResponse.toSchedule(): ScheduleDTO {
     return ScheduleDTO(
         idAgendamento = idAgendamento,
         nomeServico = nomeServico,
-        idServico = idServico,
-        valorServico = valorServico,
         nomeEmpresa = nomeEmpresa,
         dataHora = dataHora,
         status = status,
         atendente = atendente,
-        urlImage = urlImage,
         profissionais = proficionaisDaEmpresa.map {
             ProfessionalResponse(
                 idUsuario = it.idUsuario,
@@ -42,24 +36,18 @@ fun ScheduleResponse.toSchedule(): ScheduleDTO {
 data class ScheduleDTO(
     val idAgendamento: Int,
     val nomeServico: String,
-    val idServico: Int,
-    val valorServico: String,
     val nomeEmpresa: String,
     val dataHora: String,
     val status: String,
-    val urlImage: String?,
     val atendente: String,
     val profissionais: List<ProfessionalResponse>
 ){
     constructor(): this(
         idAgendamento = 0,
         nomeServico = "",
-        idServico = 0,
-        valorServico = "",
         nomeEmpresa = "",
         dataHora = "",
         status = "",
-        urlImage = "",
         atendente = "",
         profissionais = emptyList()
     )

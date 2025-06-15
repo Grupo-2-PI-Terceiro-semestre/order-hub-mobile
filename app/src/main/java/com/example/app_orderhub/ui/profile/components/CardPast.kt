@@ -4,10 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,11 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.navOptions
 import com.example.app_orderhub.data.model.schedule.ScheduleDTO
-import com.example.app_orderhub.ui.catolog.CatalogScreen
-import com.example.app_orderhub.viewmodel.SharedClientViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -32,12 +24,8 @@ fun CardPast(
 //    imagemUrl: String = "https://www.barbeariank.com.br/wp-content/uploads/2021/06/Logo-Barbearia-NK-1.png",
     onReschedule: () -> Unit = {},
     schedule: ScheduleDTO = ScheduleDTO(),
-    navController: NavController,
     modifier: Modifier = Modifier
 ) {
-
-    var showModal by remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -73,7 +61,6 @@ fun CardPast(
                     ) {
                         IconProfile(
                             title = "${schedule.nomeEmpresa}",
-                            imageRes = "${schedule.urlImage}",
                             fontSize = 16,
                             size = 40
                         )
@@ -100,9 +87,7 @@ fun CardPast(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Button(
-                    onClick = {
-                        navController.navigate("catalog/${schedule.idEmpresa}")
-                    },
+                    onClick = { onReschedule() },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2185A8))
@@ -114,11 +99,11 @@ fun CardPast(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCardPast() {
-//    CardPast(navController = NavController() })
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewCardPast() {
+    CardPast()
+}
 
 fun formatIsoDateTime(isoDateTime: String): String {
     return try {

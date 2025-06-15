@@ -119,7 +119,7 @@ fun ContentScheduling(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 agendamentosFinalizados.forEach { schedule ->
-                    CardPast(schedule = schedule, navController = navController)
+                    CardPast(schedule = schedule)
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

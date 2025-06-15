@@ -103,8 +103,7 @@ fun CardCurrent(
             }
 
             IconProfile(
-                title = "${schedule.nomeEmpresa}",
-                imageRes = "${schedule.urlImage}",
+                title = "Barbearia NK",
                 textColor = Color.Black,
                 fontSize = 16,
                 size = 40
@@ -173,23 +172,11 @@ fun CardCurrent(
                     nomeServico = schedule.nomeServico ?: "",
                     duracaoServico = "",
                     descricaoServico = "",
-                    precoServico = schedule.valorServico.toDouble(),
+                    precoServico = 0.0,
                     proficional = listOf(schedule.atendente ?: "")
                 )
-                val professional = schedule.profissionais
-                    .filter { it.nomePessoa == schedule.atendente }
 
-                ScheduleModal(
-                    onDismiss = { showSchedule = false },
-                    schedule.idEmpresa.toString(),
-                    schedule.idAgendamento.toString(),
-                    idClient,
-                    service,
-                    professional = professional,
-                    schedule.dataHora,
-                    sharedClientViewModel,
-                    navController
-                )
+                ScheduleModal(onDismiss = { showSchedule = false },service, schedule.atendente, schedule.nomeEmpresa, sharedClientViewModel, navController)
             }
         }
     }
