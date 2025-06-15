@@ -6,5 +6,5 @@ data class ScheduleRequest(
     val idServico: Int,
     val idProfissional: Int,
     val dataAgendamento: String,
-    val statusAgendamento: String? = null
+    val statusAgendamento: String
 )

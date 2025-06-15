@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,9 +31,6 @@ fun CardService(
     navController: NavController,
 ) {
     var showSchedule by remember { mutableStateOf(false) }
-
-    val client = sharedClientViewModel.client.collectAsState().value
-    val idClient = client?.idPessoa.toString()
 
     Card(
         modifier = modifier

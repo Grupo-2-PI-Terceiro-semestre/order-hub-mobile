@@ -26,11 +26,17 @@ fun ButtonAuth(
     width: Float = 0.8f,
     height: Int = 50,
     fontSize: Int = 16,
+    eneblad: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(backgroundColor),
+        enabled = eneblad,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = textColor,
+            disabledContainerColor = backgroundColor
+        ),
         shape = RoundedCornerShape(borderRadius.dp),
         border = BorderStroke(borderWidth.dp, borderColor),
         modifier = Modifier

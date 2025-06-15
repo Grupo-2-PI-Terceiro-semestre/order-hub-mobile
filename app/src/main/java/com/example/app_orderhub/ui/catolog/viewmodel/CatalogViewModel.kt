@@ -76,12 +76,11 @@ class CatalogViewModel : ViewModel() {
     }
 
     fun createSchedule(
-        idAgendamento: String,
-        idClient: String,
         idService: String,
         idProfessional: String,
         date: String,
         time: String,
+        idClient: Int,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
@@ -103,6 +102,7 @@ class CatalogViewModel : ViewModel() {
                     dataAgendamento = scheduleFormatted,
                     statusAgendamento = "PENDENTE"
                 )
+
 
                 if (request.idAgendamento == "") {
                     catalogRepository.createSchedule(request)

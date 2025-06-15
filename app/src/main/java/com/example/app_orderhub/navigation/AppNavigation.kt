@@ -56,6 +56,8 @@ fun AppNavigation(
             EditProfileScreen(navController, idClient)
         }
         composable("token") { MobileTokenScreen(navController) }
-        composable("reset") { ResetPasswordScreen(navController) }
+        composable("reset/{token}") {backStackEntity ->
+            val token = backStackEntity.arguments?.getString("token") ?: ""
+            ResetPasswordScreen(navController = navController, token = token) }
     }
 }

@@ -14,8 +14,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.app_orderhub.domain.model.Client
 import com.example.app_orderhub.services.rememberImeState
@@ -30,13 +33,18 @@ import com.example.app_orderhub.ui.auth.components.ButtonAuth
 import com.example.app_orderhub.ui.auth.components.ImageTop
 import com.example.app_orderhub.ui.auth.components.Input
 import com.example.app_orderhub.ui.auth.components.TitleSubtitle
+import com.example.app_orderhub.ui.auth.viewmodel.AuthViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
 import com.example.app_orderhub.util.theme.OrderHubBlue
 
 @Composable
-fun RecoverPasswordScreen(navController: NavController) {
+fun RecoverPasswordScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
     val imeState = rememberImeState()
     var scrollState = rememberScrollState()
+
+    val isLoading = authViewModel.isLoading.collectAsState()
+    val errorMessage = authViewModel.errorMessage.collectAsState()
+    val client = authViewModel.client.collectAsState()
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) {
@@ -56,14 +64,26 @@ fun RecoverPasswordScreen(navController: NavController) {
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            RecoverPasswordPreview(navController)
+            RecoverPasswordPreview(
+                navController = navController,
+                authViewModel = authViewModel,
+                isLoading = isLoading.value,
+                errorMessage = errorMessage.value,
+                client = client.value
+            )
         }
     }
 
 }
 
 @Composable
-fun RecoverPasswordPreview(navController: NavController) {
+fun RecoverPasswordPreview(
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    isLoading: Boolean,
+    errorMessage: String?,
+    client: Client
+) {
 
     Column(
         modifier = Modifier
@@ -84,11 +104,9 @@ fun RecoverPasswordPreview(navController: NavController) {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        var client = remember { mutableStateOf(Client()) }
-
         Input(
-            value = client.value.emailPessoa,
-            onValueChange = { newValue -> client.value = client.value.copy(emailPessoa = newValue) },
+            value = client.emailPessoa,
+            onValueChange = authViewModel::onEmailChanged,
             label = "username@orderhub.com",
             widthPercentage = 0.8f,
             icon = {
@@ -101,23 +119,45 @@ fun RecoverPasswordPreview(navController: NavController) {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        ButtonPreview(navController)
+        errorMessage?.let {
+            Text(text = it, color = Color.Red)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Spacer(modifier =  Modifier.height(16.dp))
+
+        ButtonPreview(
+            navController,
+            authViewModel,
+            isLoading
+            )
     }
 }
 
 @Composable
-private fun ButtonPreview(navController: NavController) {
+private fun ButtonPreview(
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    isLoading: Boolean
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
         ButtonAuth(
             borderRadius = 10,
-            text = "Enviar",
+            text = if (isLoading) "Aguarde" else "Enviar",
+            eneblad = !isLoading,
             borderColor = OrderHubBlue,
             fontSize = 20,
             onClick = {
-                navController.navigate("confirmRecover")
+                if (!isLoading) {
+                    authViewModel.sendEmail(
+                         onSuccess = {
+                            navController.navigate("confirmRecover")
+                        },
+                        onError = { /* Pode exibir erro na tela se necessário */ }
+                    )
+                }
             }
         )
     }
