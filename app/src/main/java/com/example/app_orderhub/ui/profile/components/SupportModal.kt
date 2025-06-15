@@ -18,14 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SupportModal(
-    onCancelClick: () -> Unit = {},
-    onDismiss: () -> Unit = {}
-) {
+fun SupportModal() {
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.elevatedCardElevation(8.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -36,15 +32,6 @@ fun SupportModal(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Box(
-                modifier = Modifier
-                    .width(40.dp)
-                    .height(6.dp)
-                    .background(Color(0xFFE0E0E0), shape = RoundedCornerShape(50))
-                    .padding(bottom = 12.dp)
-            )
-            Spacer(modifier = Modifier.height(60.dp))
             Text(
                 text = "Ajuda e suporte",
                 fontSize = 20.sp,
@@ -107,11 +94,6 @@ fun SupportModal(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text(
-                text = "Cancelar",
-                color = Color.Blue,
-                fontWeight = FontWeight.Bold
-            )
         }
     }
 }

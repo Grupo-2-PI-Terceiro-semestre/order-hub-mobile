@@ -36,12 +36,6 @@ fun OptionProfile() {
             title = "Ajuda e suporte",
             onClick = { showModal = true }
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        OptionItem(
-            icon = painterResource(id = android.R.drawable.ic_dialog_alert),
-            title = "Sobre o aplicativo",
-            onClick = { /* outra ação aqui */ }
-        )
     }
 
     if (showModal) {
@@ -96,7 +90,7 @@ fun SupportModalBottomSheet(
         onDismissRequest = onDismiss,
         containerColor = Color.White
     ) {
-        SupportModal(onDismiss = onDismiss)
+        SupportModal()
     }
 }
 
@@ -110,5 +104,5 @@ fun PreviewOptionProfile() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewSupportModal() {
-    SupportModal(onDismiss = {})
+    SupportModal()
 }

@@ -46,7 +46,7 @@ fun ProfileOptionsList(navController: NavController, idClient : Int?) {
             title = "Minha Conta",
             subtitle = "Faça alterações em sua conta",
             endIconColor = Color.Red,
-            onclick = { }
+            onclick = { navController.navigate("editProfile/${idClient}") }
         )
 
 
