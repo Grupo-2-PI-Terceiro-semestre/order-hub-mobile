@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SupportModal(
-    onCancelClick: () -> Unit = {}
+    onCancelClick: () -> Unit = {},
+    onDismiss: () -> Unit = {}
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
