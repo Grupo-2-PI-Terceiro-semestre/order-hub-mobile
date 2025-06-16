@@ -6,16 +6,17 @@ import com.example.app_orderhub.domain.model.Imagems
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
 
-data class CatalogResponse (
+data class CatalogResponse(
     val nomeEmpresa: String,
-    val endereco : Address,
+    val endereco: Address,
     val imagems: List<Imagems>,
     val servicos: List<Service>,
     val usuario: List<Professional>
 )
 
-fun CatalogResponse.toEnterprise(): Enterprise {
+fun CatalogResponse.toEnterprise(idEnterprise: Int): Enterprise {
     return Enterprise(
+        idEmpresa = idEnterprise,
         nomeEmpresa,
         endereco,
         imagems.map { it.urlImagem },

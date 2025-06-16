@@ -6,6 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,20 +17,51 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.app_orderhub.domain.model.Schedule
 import com.example.app_orderhub.navigation.MenuNavigation
+import com.example.app_orderhub.ui.catolog.components.ImageEnterprise
 import com.example.app_orderhub.ui.components.CardCurrent
 import com.example.app_orderhub.ui.components.CardPast
+import com.example.app_orderhub.ui.profile.viewmodel.ProfileViewModel
+import com.example.app_orderhub.ui.search.viewmodel.ScheduleViewModel
 import com.example.app_orderhub.util.theme.ColorBackGroundDefault
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 @Composable
-fun SchedulingScreen(navController: NavController) {
+fun SchedulingScreen(
+    navController: NavController, sharedClientViewModel: SharedClientViewModel = viewModel()
+) {
+    val client = sharedClientViewModel.client.collectAsState().value
+
     MenuNavigation(navController) {
-       ContentScheduling()
+        ContentScheduling(idClient = client?.idPessoa.toString(), navController = navController)
     }
 }
 
 @Composable
-fun ContentScheduling() {
+fun ContentScheduling(
+    scheduleViewModel: ScheduleViewModel = viewModel(),
+    idClient: String,
+    navController: NavController
+) {
+    val schedulesState = scheduleViewModel.schedules.collectAsState()
+
+    LaunchedEffect(Unit) {
+        scheduleViewModel.onParamChanged(idClient)
+    }
+
+    LaunchedEffect(Unit) {
+        scheduleViewModel.getSchedule(
+            onSuccess = {
+                println("Sucesso ao carregar agendamentos")
+            },
+            onError = {
+                println("Erro ao carregar agendamentos")
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +69,6 @@ fun ContentScheduling() {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,74 +86,44 @@ fun ContentScheduling() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        schedulesState.value?.let { scheduleList ->
+            val agendamentosAtivos = scheduleList.filter {
+                it.status == "PENDENTE" || it.status == "AGENDADO"
+            }
 
-        CardCurrent(
-            serviceName = "Corte e Barba",
-            professionalName = "Com Kevin Silva",
-            date = "Março",
-            day = "15",
-            time = "10:00",
-            onCancel = {},
-            onReschedule = {},
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
+            val agendamentosFinalizados = scheduleList.filter {
+                it.status == "REALIZADO" || it.status == "CANCELADO"
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            if (agendamentosAtivos.isNotEmpty()) {
+                Text(
+                    text = "Agendamentos Ativos",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(12.dp))
 
+                agendamentosAtivos.forEach { schedule ->
+                    CardCurrent(schedule = schedule, scheduleViewModel = scheduleViewModel, sharedClientViewModel = SharedClientViewModel(), navController = navController, idClient = idClient )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
 
-        Text(
-            text = "Reservas Finalizadas",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp)
-        )
+            if (agendamentosFinalizados.isNotEmpty()) {
+                Text(
+                    text = "Histórico de Agendamentos",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(12.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        CardPast(
-            date = "Sab, 13 junho 2024",
-            serviceName = "Corte e Barba",
-            professionalName = "Com Kevin Silva",
-            status = "FINALIZADA",
-            onReschedule = {},
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-        CardPast(
-            date = "Seg, 15 junho 2024",
-            serviceName = "Corte e Barba",
-            professionalName = "Com Kevin Silva",
-            status = "FINALIZADA",
-            onReschedule = {},
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-        CardPast(
-            date = "Sab, 13 junho 2024",
-            serviceName = "Corte e Barba",
-            professionalName = "Com Kevin Silva",
-            status = "FINALIZADA",
-            onReschedule = {},
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-        CardPast(
-            date = "Seg, 15 junho 2024",
-            serviceName = "Corte e Barba",
-            professionalName = "Com Kevin Silva",
-            status = "FINALIZADA",
-            onReschedule = {},
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-
-        Spacer(modifier = Modifier.height(32.dp)) // Margem na base
-
+                agendamentosFinalizados.forEach { schedule ->
+                    CardPast(schedule = schedule, navController = navController)
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSchedulingScreen() {
-    SchedulingScreen(navController = rememberNavController())
 }

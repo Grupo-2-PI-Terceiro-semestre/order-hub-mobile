@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,17 +16,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app_orderhub.domain.model.Professional
 import com.example.app_orderhub.domain.model.Service
 import com.example.app_orderhub.util.theme.OrderHubBlue
+import com.example.app_orderhub.viewmodel.SharedClientViewModel
 
 @Composable
 fun CardService(
     modifier: Modifier = Modifier,
+    idEnterprise : String,
     service: Service,
-    professional: List<Professional>
+    professional: List<Professional>,
+    sharedClientViewModel : SharedClientViewModel,
+    navController: NavController,
 ) {
-    var showSchedule by remember { mutableStateOf(false) } // Estado do modal
+    var showSchedule by remember { mutableStateOf(false) }
+
+    val client = sharedClientViewModel.client.collectAsState().value
+    val idClient = client?.idPessoa.toString()
 
     Card(
         modifier = modifier
@@ -91,7 +100,7 @@ fun CardService(
             Spacer(modifier = Modifier.width(20.dp))
 
             Button(
-                onClick = { showSchedule = true }, // Abrir modal ao clicar
+                onClick = { showSchedule = true },
                 modifier = Modifier
                     .height(40.dp)
                     .width(120.dp),
@@ -109,7 +118,17 @@ fun CardService(
     }
 
     if (showSchedule) {
-        ScheduleModal(onDismiss = { showSchedule = false }, service, professional) // Exibir modal
+        ScheduleModal(
+            onDismiss = { showSchedule = false },
+            idEnterprise = idEnterprise,
+            idAgendamento = null,
+            idClient = idClient,
+            service =  service,
+            professional = professional,
+            dataHora = null,
+            sharedClientViewModel = sharedClientViewModel,
+            navController = navController
+        )
     }
 
     fun getNameProfessionals(professional: List<Professional>): String {

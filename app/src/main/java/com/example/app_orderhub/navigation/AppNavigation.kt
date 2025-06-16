@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.app_orderhub.ui.auth.screens.ConfirmRecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.screens.LoginScreen
+import com.example.app_orderhub.ui.auth.screens.MobileTokenScreen
 import com.example.app_orderhub.ui.auth.screens.RecoverPasswordScreen
 import com.example.app_orderhub.ui.auth.screens.RegisterScreen
+import com.example.app_orderhub.ui.auth.screens.ResetPasswordScreen
 import com.example.app_orderhub.ui.catolog.CatalogScreen
 import com.example.app_orderhub.ui.home.HomeScreen
 import com.example.app_orderhub.ui.map.MapScreen
@@ -43,15 +45,19 @@ fun AppNavigation(
         composable("search") { SearchScreen(navController) }
         composable("profile") { ProfileScreen(navController, sharedClientViewModel) }
         composable("locale") { MapScreen(navController) }
-        composable("scheduling") { SchedulingScreen(navController) }
+        composable("scheduling") { SchedulingScreen(navController, sharedClientViewModel) }
         composable("catalog/{idEnterprise}") { backStackEntry ->
             val idEmpresa = backStackEntry.arguments?.getString("idEnterprise") ?: ""
-            CatalogScreen(idEnterprise = idEmpresa, navController = navController)
+            CatalogScreen(idEnterprise = idEmpresa, navController = navController, sharedClientViewModel = sharedClientViewModel)
         }
 
         composable("editProfile/{idClient}") { backStackEntry ->
             val idClient = backStackEntry.arguments?.getString("idClient") ?: ""
             EditProfileScreen(navController, idClient)
         }
+        composable("token") { MobileTokenScreen(navController) }
+        composable("reset/{token}") {backStackEntity ->
+            val token = backStackEntity.arguments?.getString("token") ?: ""
+            ResetPasswordScreen(navController = navController, token = token) }
     }
 }
